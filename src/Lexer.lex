@@ -35,6 +35,8 @@ Integer = (0|[1-9]{Digit}*)
 
   "if"          { return symbol(sym.IF);         }
   "then"        { return symbol(sym.THEN);       }
+  "fdef"        { return symbol(sym.FDEF);       }
+  "tdef"        { return symbol(sym.TDEF);       }
   "else"        { return symbol(sym.ELSE);       }
   "let"         { return symbol(sym.LET);        }
 
@@ -43,7 +45,7 @@ Integer = (0|[1-9]{Digit}*)
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 
   {Whitespace}  { /* do nothing */               }
-  "="           { return symbol(sym.ASSIGNMENT);  }
+  "="           { return symbol(sym.ASSIGNMENT); }
   ";"           { return symbol(sym.SEMICOL);    }
   "+"           { return symbol(sym.PLUS);       }
   "-"           { return symbol(sym.MINUS);      }
