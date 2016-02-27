@@ -392,7 +392,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // let_bind ::= LET IDENTIFIER EQUAL full_exp 
+          case 15: // let_bind ::= LET IDENTIFIER ASSIGNMENT full_exp 
             {
               Object RESULT =null;
 		int ileft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)).left;

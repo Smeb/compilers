@@ -33,21 +33,31 @@ Integer = (0|[1-9]{Digit}*)
 %%
 <YYINITIAL> {
 
+  "if"          { return symbol(sym.IF);         }
+  "then"        { return symbol(sym.THEN);       }
+  "else"        { return symbol(sym.ELSE);       }
   "let"         { return symbol(sym.LET);        }
+
   {Integer}     { return symbol(sym.INTEGER,
                                 Integer.parseInt(yytext())); }
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 
   {Whitespace}  { /* do nothing */               }
-  ":="          { return symbol(sym.EQUAL);      }
+  "="           { return symbol(sym.ASSIGNMENT);  }
   ";"           { return symbol(sym.SEMICOL);    }
   "+"           { return symbol(sym.PLUS);       }
   "-"           { return symbol(sym.MINUS);      }
   "*"           { return symbol(sym.MULT);       }
   "/"           { return symbol(sym.DIV);        }
+
+  /* Sequence terminals */
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
-
+  "{"           { return symbol(sym.LBRACE);     }
+  "}"           { return symbol(sym.RBRACE);     }
+  "["           { return symbol(sym.LBRACKET);   }
+  "]"           { return symbol(sym.RBRACKET);   }
+  "\""          { return symbol(sym.STRINGTERM); }
 }
 
 [^]  {

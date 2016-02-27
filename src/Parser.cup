@@ -47,8 +47,13 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-terminal INTEGER, IDENTIFIER, LET, EQUAL, SEMICOL, PLUS, MINUS, MULT, DIV;
-terminal LPAREN, RPAREN;
+// define the set of symbols, currently all terminals
+terminal INTEGER, IDENTIFIER, LET, ASSIGNMENT, SEMICOL, PLUS, MINUS, MULT, DIV;
+
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, STRINGTERM;
+
+terminal IF, THEN, ELSE;
+
 terminal BADCHAR;
 
 nonterminal statements, statement, top_level;
@@ -105,7 +110,7 @@ operator ::= PLUS  {: RESULT = new Node("+"); :}
            | DIV   {: RESULT = new Node("/"); :}
            ;
 
-let_bind ::= LET IDENTIFIER:i EQUAL full_exp:e {:
+let_bind ::= LET IDENTIFIER:i ASSIGNMENT full_exp:e {:
                Node n = new Node("LET");
                n.addChild(new Node(i));
                n.addChild((Node)e);

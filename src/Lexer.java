@@ -34,10 +34,11 @@ class Lexer implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\3\1\2\2\0\1\1\22\0\1\3\7\0\1\22\1\23"+
-    "\1\20\1\16\1\0\1\17\1\0\1\21\1\7\11\5\1\13\1\15"+
-    "\1\0\1\14\3\0\32\4\4\0\1\6\1\0\4\4\1\11\6\4"+
-    "\1\10\7\4\1\12\6\4\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff95\0";
+    "\11\0\1\3\1\2\2\0\1\1\22\0\1\3\1\0\1\34\5\0"+
+    "\1\26\1\27\1\24\1\22\1\0\1\23\1\0\1\25\1\7\11\5"+
+    "\1\0\1\21\1\0\1\20\3\0\32\4\1\32\1\0\1\33\1\0"+
+    "\1\6\1\0\4\4\1\14\1\11\1\4\1\13\1\10\2\4\1\16"+
+    "\1\4\1\15\4\4\1\17\1\12\6\4\1\30\1\0\1\31\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff92\0";
 
   /** 
    * Translates characters to character classes
@@ -50,12 +51,12 @@ class Lexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\2\2\1\3\2\4\1\3\1\1\1\5"+
-    "\1\6\1\7\1\10\1\11\1\12\1\13\1\3\1\14"+
-    "\1\15";
+    "\1\0\1\1\2\2\1\3\2\4\4\3\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\1\17\1\20\1\21\1\22\5\3\1\23\1\24\1\25";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[19];
+    int [] result = new int[33];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -80,12 +81,14 @@ class Lexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\24\0\50\0\24\0\74\0\120\0\24\0\144"+
-    "\0\170\0\24\0\24\0\24\0\24\0\24\0\24\0\24"+
-    "\0\214\0\24\0\74";
+    "\0\0\0\35\0\72\0\35\0\127\0\164\0\35\0\221"+
+    "\0\256\0\313\0\350\0\35\0\35\0\35\0\35\0\35"+
+    "\0\35\0\35\0\35\0\35\0\35\0\35\0\35\0\35"+
+    "\0\127\0\u0105\0\u0122\0\u013f\0\u015c\0\u0179\0\127\0\127"+
+    "\0\127";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[19];
+    int [] result = new int[33];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -109,13 +112,17 @@ class Lexer implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\2\4\1\5\1\6\1\2\1\7\1\10"+
-    "\2\5\1\11\1\2\1\12\1\13\1\14\1\15\1\16"+
-    "\1\17\1\20\26\0\1\4\25\0\7\5\16\0\1\6"+
-    "\1\0\1\6\20\0\5\5\1\21\1\5\25\0\1\22"+
-    "\13\0\6\5\1\23\11\0";
+    "\1\5\1\11\1\5\1\12\1\5\1\13\1\5\1\14"+
+    "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
+    "\1\25\1\26\1\27\1\30\37\0\1\4\36\0\14\5"+
+    "\22\0\1\6\1\0\1\6\31\0\5\5\1\31\6\5"+
+    "\21\0\7\5\1\32\4\5\21\0\12\5\1\33\1\5"+
+    "\21\0\10\5\1\34\3\5\21\0\10\5\1\35\3\5"+
+    "\21\0\13\5\1\36\21\0\6\5\1\37\5\5\21\0"+
+    "\11\5\1\40\2\5\21\0\10\5\1\41\3\5\15\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[160];
+    int [] result = new int[406];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -153,11 +160,11 @@ class Lexer implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\1\11\2\1\1\11\2\1\7\11"+
-    "\1\1\1\11\1\1";
+    "\1\0\1\11\1\1\1\11\2\1\1\11\4\1\15\11"+
+    "\11\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[19];
+    int [] result = new int[33];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -266,7 +273,7 @@ class Lexer implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 102) {
+    while (i < 132) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -641,85 +648,133 @@ class Lexer implements java_cup.runtime.Scanner {
       switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
         case 1: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [53] { System.out.println(\"file:\" + (yyline+1) +"+ZZ_NL+"    \":0: Error: Invalid input \'\" + yytext()+\"\'\");"+ZZ_NL+"  return symbol(sym.BADCHAR); }");
+          System.out.println("action [63] { System.out.println(\"file:\" + (yyline+1) +"+ZZ_NL+"    \":0: Error: Invalid input \'\" + yytext()+\"\'\");"+ZZ_NL+"  return symbol(sym.BADCHAR); }");
           { System.out.println("file:" + (yyline+1) +
     ":0: Error: Invalid input '" + yytext()+"'");
   return symbol(sym.BADCHAR);
           }
-        case 14: break;
+        case 22: break;
         case 2: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [41] { /* do nothing */ }");
+          System.out.println("action [45] { /* do nothing */ }");
           { /* do nothing */
           }
-        case 15: break;
+        case 23: break;
         case 3: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [39] { return symbol(sym.IDENTIFIER, yytext()); }");
+          System.out.println("action [43] { return symbol(sym.IDENTIFIER, yytext()); }");
           { return symbol(sym.IDENTIFIER, yytext());
           }
-        case 16: break;
+        case 24: break;
         case 4: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [37] { return symbol(sym.INTEGER,"+ZZ_NL+"                                Integer.parseInt(yytext())); }");
+          System.out.println("action [41] { return symbol(sym.INTEGER,"+ZZ_NL+"                                Integer.parseInt(yytext())); }");
           { return symbol(sym.INTEGER,
                                 Integer.parseInt(yytext()));
           }
-        case 17: break;
+        case 25: break;
         case 5: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [43] { return symbol(sym.SEMICOL); }");
-          { return symbol(sym.SEMICOL);
-          }
-        case 18: break;
-        case 6: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [44] { return symbol(sym.PLUS); }");
-          { return symbol(sym.PLUS);
-          }
-        case 19: break;
-        case 7: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [45] { return symbol(sym.MINUS); }");
-          { return symbol(sym.MINUS);
-          }
-        case 20: break;
-        case 8: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [46] { return symbol(sym.MULT); }");
-          { return symbol(sym.MULT);
-          }
-        case 21: break;
-        case 9: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [47] { return symbol(sym.DIV); }");
-          { return symbol(sym.DIV);
-          }
-        case 22: break;
-        case 10: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [48] { return symbol(sym.LPAREN); }");
-          { return symbol(sym.LPAREN);
-          }
-        case 23: break;
-        case 11: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [49] { return symbol(sym.RPAREN); }");
-          { return symbol(sym.RPAREN);
-          }
-        case 24: break;
-        case 12: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [42] { return symbol(sym.EQUAL); }");
-          { return symbol(sym.EQUAL);
-          }
-        case 25: break;
-        case 13: 
-          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [36] { return symbol(sym.LET); }");
-          { return symbol(sym.LET);
+          System.out.println("action [46] { return symbol(sym.ASSIGNMENT); }");
+          { return symbol(sym.ASSIGNMENT);
           }
         case 26: break;
+        case 6: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [47] { return symbol(sym.SEMICOL); }");
+          { return symbol(sym.SEMICOL);
+          }
+        case 27: break;
+        case 7: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [48] { return symbol(sym.PLUS); }");
+          { return symbol(sym.PLUS);
+          }
+        case 28: break;
+        case 8: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [49] { return symbol(sym.MINUS); }");
+          { return symbol(sym.MINUS);
+          }
+        case 29: break;
+        case 9: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [50] { return symbol(sym.MULT); }");
+          { return symbol(sym.MULT);
+          }
+        case 30: break;
+        case 10: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [51] { return symbol(sym.DIV); }");
+          { return symbol(sym.DIV);
+          }
+        case 31: break;
+        case 11: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [54] { return symbol(sym.LPAREN); }");
+          { return symbol(sym.LPAREN);
+          }
+        case 32: break;
+        case 12: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [55] { return symbol(sym.RPAREN); }");
+          { return symbol(sym.RPAREN);
+          }
+        case 33: break;
+        case 13: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [56] { return symbol(sym.LBRACE); }");
+          { return symbol(sym.LBRACE);
+          }
+        case 34: break;
+        case 14: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [57] { return symbol(sym.RBRACE); }");
+          { return symbol(sym.RBRACE);
+          }
+        case 35: break;
+        case 15: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [58] { return symbol(sym.LBRACKET); }");
+          { return symbol(sym.LBRACKET);
+          }
+        case 36: break;
+        case 16: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [59] { return symbol(sym.RBRACKET); }");
+          { return symbol(sym.RBRACKET);
+          }
+        case 37: break;
+        case 17: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [60] { return symbol(sym.STRINGTERM); }");
+          { return symbol(sym.STRINGTERM);
+          }
+        case 38: break;
+        case 18: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [36] { return symbol(sym.IF); }");
+          { return symbol(sym.IF);
+          }
+        case 39: break;
+        case 19: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [39] { return symbol(sym.LET); }");
+          { return symbol(sym.LET);
+          }
+        case 40: break;
+        case 20: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [37] { return symbol(sym.THEN); }");
+          { return symbol(sym.THEN);
+          }
+        case 41: break;
+        case 21: 
+          System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
+          System.out.println("action [38] { return symbol(sym.ELSE); }");
+          { return symbol(sym.ELSE);
+          }
+        case 42: break;
         default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;
