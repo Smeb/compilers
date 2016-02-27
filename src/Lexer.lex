@@ -14,11 +14,9 @@ import java_cup.runtime.*;
   public  void    debug(boolean mode){ debug_mode = mode; }
 
   private Symbol symbol(int type) {
-    print_lexeme(type, null);
     return new Symbol(type, yyline, yycolumn);
   }
   private Symbol symbol(int type, Object value) {
-    print_lexeme(type, value);
     return new Symbol(type, yyline, yycolumn, value);
   }
 
