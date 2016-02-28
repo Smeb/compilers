@@ -6,28 +6,38 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int ELSE = 20;
-  public static final int PLUS = 7;
-  public static final int BADCHAR = 21;
-  public static final int RBRACE = 14;
-  public static final int RPAREN = 12;
-  public static final int THEN = 19;
+  public static final int FDEF = 23;
+  public static final int READ = 25;
+  public static final int ELSE = 22;
+  public static final int FORALL = 20;
+  public static final int TDEF = 24;
+  public static final int PLUS = 8;
+  public static final int BADCHAR = 31;
+  public static final int RBRACE = 15;
+  public static final int RPAREN = 13;
+  public static final int THEN = 21;
+  public static final int FI = 30;
   public static final int IDENTIFIER = 3;
-  public static final int IF = 18;
-  public static final int LPAREN = 11;
-  public static final int LBRACKET = 15;
-  public static final int LBRACE = 13;
-  public static final int RBRACKET = 16;
+  public static final int IF = 29;
+  public static final int LPAREN = 12;
+  public static final int LBRACKET = 16;
+  public static final int LBRACE = 14;
+  public static final int RBRACKET = 17;
+  public static final int OD = 28;
+  public static final int DO = 27;
   public static final int EOF = 0;
-  public static final int MULT = 9;
-  public static final int DIV = 10;
+  public static final int MULT = 10;
+  public static final int DIV = 11;
   public static final int SEMICOL = 6;
-  public static final int MINUS = 8;
+  public static final int MINUS = 9;
+  public static final int PRINT = 26;
   public static final int error = 1;
   public static final int LET = 4;
-  public static final int STRINGTERM = 17;
+  public static final int STRINGTERM = 18;
   public static final int ASSIGNMENT = 5;
   public static final int INTEGER = 2;
+  public static final int FOR = 19;
+  public static final int RATIONAL = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -36,6 +46,7 @@ public class sym {
   "LET",
   "ASSIGNMENT",
   "SEMICOL",
+  "RATIONAL",
   "PLUS",
   "MINUS",
   "MULT",
@@ -47,9 +58,18 @@ public class sym {
   "LBRACKET",
   "RBRACKET",
   "STRINGTERM",
-  "IF",
+  "FOR",
+  "FORALL",
   "THEN",
   "ELSE",
+  "FDEF",
+  "TDEF",
+  "READ",
+  "PRINT",
+  "DO",
+  "OD",
+  "IF",
+  "FI",
   "BADCHAR"
   };
 }

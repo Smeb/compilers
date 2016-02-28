@@ -47,12 +47,15 @@ parser code {:
 :};
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
-// define the set of symbols, currently all terminals
-terminal INTEGER, IDENTIFIER, LET, ASSIGNMENT, SEMICOL, PLUS, MINUS, MULT, DIV;
+// define the set of atomic types
+terminal INTEGER, IDENTIFIER, LET, ASSIGNMENT, SEMICOL, RATIONAL;
+// set of operators
+terminal PLUS, MINUS, MULT, DIV;
 
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, STRINGTERM;
 
-terminal IF, THEN, ELSE, FDEF, TDEF;
+terminal FOR, FORALL, THEN, ELSE, FDEF, TDEF, READ, PRINT;
+terminal DO, OD, IF, FI;
 
 terminal BADCHAR;
 
