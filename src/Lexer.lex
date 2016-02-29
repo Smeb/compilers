@@ -22,20 +22,20 @@ import java_cup.runtime.*;
 
 %}
 
-Whitespace = \r|\n|\r\n|" "|"\t"
 
+Whitespace = \r|\n|\r\n|" "|"\t"
 Letter = [a-zA-Z]
 Digit = [0-9]
 Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
-AcceptedChar = {Letter}|" "|{Digit}
+AcceptedChar = ({Letter}|" "|{Digit})
 IdChar = {Letter} | {Digit} | "_"
 Identifier = {Letter}{IdChar}*
 Integer = (0|[1-9]{Digit}*)
 Rational = ({Integer}_)?{Integer}\/{Integer}
 Float = {Integer}.{Integer}
-Char = '{AcceptedChars}'
+Char = \'({Letter}|{Digit}|{Punctuation})\'
 
-%state STRING
+%state STRING, CHAR, IN_COMMENT, END_L_COMMENT
 %%
 <YYINITIAL> {
   /* iterator keywords in the language */
@@ -49,6 +49,7 @@ Char = '{AcceptedChars}'
   "read"        { return symbol(sym.READ);       }
   "do"          { return symbol(sym.DO);         }
   "od"          { return symbol(sym.OD);         }
+  ":"           { return symbol(sym.COLON);      }
 
   /* declarative symbols in the language */
   "fdef"        { return symbol(sym.FDEF);       }
@@ -58,6 +59,13 @@ Char = '{AcceptedChars}'
   {Integer}     { return symbol(sym.INTEGER,
                     Integer.parseInt(yytext())); }
   {Float}       { return symbol(sym.FLOAT);      }
+
+  {Char}        {
+                  return symbol(
+                      sym.CHAR,
+                      yytext());
+                }
+
   "T"           { return symbol(sym.T);          }
   "F"           { return symbol(sym.F);          }
   "alias"       { return symbol(sym.ALIAS);      }
@@ -108,4 +116,3 @@ Char = '{AcceptedChars}'
     ":0: Error: Invalid input '" + yytext()+"'");
   return symbol(sym.BADCHAR);
 }
-

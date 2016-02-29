@@ -48,14 +48,14 @@ parser code {:
 
 // Do something with ILLEGAL_CHARARCTER or drop it.
 // define the set of atomic types
-terminal INTEGER, IDENTIFIER, SEMICOL, RATIONAL, TOP;
+terminal INTEGER, IDENTIFIER, SEMICOL, RATIONAL, TOP, CHAR;
 // set of operators
 terminal PLUS, MINUS, MULT, DIV;
 
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, STRINGTERM;
 
 terminal FOR, FORALL, THEN, ELSE, FDEF, TDEF, READ, PRINT, FLOAT;
-terminal DO, OD, IF, FI;
+terminal DO, OD, IF, FI, COLON;
 
 terminal OR, AND, NOT;
 
