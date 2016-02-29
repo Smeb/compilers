@@ -26,34 +26,55 @@ Whitespace = \r|\n|\r\n|" "|"\t"
 
 Letter = [a-zA-Z]
 Digit = [0-9]
+Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
+AcceptedChar = {Letter}|" "|{Digit}
 IdChar = {Letter} | {Digit} | "_"
 Identifier = {Letter}{IdChar}*
 Integer = (0|[1-9]{Digit}*)
-Rational = ({Integer}_)?{Integer}"/"{Integer}
+Rational = ({Integer}_)?{Integer}\/{Integer}
+Float = {Integer}.{Integer}
+Char = '{AcceptedChars}'
 
+%state STRING
 %%
 <YYINITIAL> {
-
-  /* keywords in the language */
+  /* iterator keywords in the language */
   "if"          { return symbol(sym.IF);         }
-  "fi"          { return symbol(sym.FI);       }
+  "fi"          { return symbol(sym.FI);         }
   "then"        { return symbol(sym.THEN);       }
-  "fdef"        { return symbol(sym.FDEF);       }
-  "tdef"        { return symbol(sym.TDEF);       }
+  "else"        { return symbol(sym.ELSE);       }
   "for"         { return symbol(sym.FOR);        }
   "forall"      { return symbol(sym.FORALL);     }
-  "else"        { return symbol(sym.ELSE);       }
-  "let"         { return symbol(sym.LET);        }
   "print"       { return symbol(sym.PRINT);      }
   "read"        { return symbol(sym.READ);       }
-  "do"          { return symbol(sym.DO);       }
-  "od"          { return symbol(sym.OD);       }
+  "do"          { return symbol(sym.DO);         }
+  "od"          { return symbol(sym.OD);         }
 
-  {Integer}     { return symbol(sym.INTEGER,
-                                Integer.parseInt(yytext())); }
-  /* TODO: implement rational correctly */
+  /* declarative symbols in the language */
+  "fdef"        { return symbol(sym.FDEF);       }
+  "tdef"        { return symbol(sym.TDEF);       }
+
   {Rational}    { return symbol(sym.RATIONAL);   }
-  {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
+  {Integer}     { return symbol(sym.INTEGER,
+                    Integer.parseInt(yytext())); }
+  {Float}       { return symbol(sym.FLOAT);      }
+  "T"           { return symbol(sym.T);          }
+  "F"           { return symbol(sym.F);          }
+  "alias"       { return symbol(sym.ALIAS);      }
+
+  /* TODO: implement rational correctly */
+
+  /* types in the language */
+  "bool"        { return symbol(sym.BOOLEAN_T);  }
+  "char"        { return symbol(sym.CHAR_T);     }
+  "dict"        { return symbol(sym.DICT_T);     }
+  "float"       { return symbol(sym.FLOAT_T);    }
+  "int"         { return symbol(sym.INT_T);      }
+  "rat"         { return symbol(sym.RATIONAL_T); }
+  "seq"         { return symbol(sym.SEQ_T);      }
+  "void"        { return symbol(sym.VOID_T);     }
+  "top"         { return symbol(sym.TOP);        }
+
 
   {Whitespace}  { /* do nothing */               }
   "="           { return symbol(sym.ASSIGNMENT); }
@@ -70,7 +91,16 @@ Rational = ({Integer}_)?{Integer}"/"{Integer}
   "}"           { return symbol(sym.RBRACE);     }
   "["           { return symbol(sym.LBRACKET);   }
   "]"           { return symbol(sym.RBRACKET);   }
-  "\""          { return symbol(sym.STRINGTERM); }
+  \"            { return symbol(sym.STRINGTERM); }
+  "||"          { return symbol(sym.OR);         }
+  "&&"          { return symbol(sym.AND);        }
+   "!"          { return symbol(sym.NOT);        }
+
+  {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
+}
+
+<STRING>{
+  \"            { return symbol(sym.STRINGTERM); }
 }
 
 [^]  {

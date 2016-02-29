@@ -6,45 +6,58 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int FDEF = 23;
-  public static final int READ = 25;
-  public static final int ELSE = 22;
-  public static final int FORALL = 20;
-  public static final int TDEF = 24;
-  public static final int PLUS = 8;
-  public static final int BADCHAR = 31;
-  public static final int RBRACE = 15;
-  public static final int RPAREN = 13;
-  public static final int THEN = 21;
-  public static final int FI = 30;
-  public static final int IDENTIFIER = 3;
-  public static final int IF = 29;
-  public static final int LPAREN = 12;
-  public static final int LBRACKET = 16;
-  public static final int LBRACE = 14;
-  public static final int RBRACKET = 17;
-  public static final int OD = 28;
-  public static final int DO = 27;
-  public static final int EOF = 0;
-  public static final int MULT = 10;
-  public static final int DIV = 11;
-  public static final int SEMICOL = 6;
-  public static final int MINUS = 9;
-  public static final int PRINT = 26;
-  public static final int error = 1;
-  public static final int LET = 4;
-  public static final int STRINGTERM = 18;
-  public static final int ASSIGNMENT = 5;
+  public static final int FORALL = 18;
+  public static final int LBRACKET = 14;
+  public static final int MULT = 8;
+  public static final int ASSIGNMENT = 42;
+  public static final int T = 44;
+  public static final int CHAR_T = 34;
   public static final int INTEGER = 2;
-  public static final int FOR = 19;
-  public static final int RATIONAL = 7;
+  public static final int DICT_ = 35;
+  public static final int LPAREN = 10;
+  public static final int BADCHAR = 46;
+  public static final int FOR = 17;
+  public static final int MINUS = 7;
+  public static final int F = 45;
+  public static final int RPAREN = 11;
+  public static final int NOT = 32;
+  public static final int AND = 31;
+  public static final int RATIONAL = 5;
+  public static final int SEQ_T = 39;
+  public static final int OR = 30;
+  public static final int TDEF = 22;
+  public static final int STRINGTERM = 16;
+  public static final int SEMICOL = 4;
+  public static final int FI = 29;
+  public static final int DIV = 9;
+  public static final int INT_T = 37;
+  public static final int PLUS = 6;
+  public static final int IF = 28;
+  public static final int EOF = 0;
+  public static final int OD = 27;
+  public static final int RBRACKET = 15;
+  public static final int error = 1;
+  public static final int BOOLEAN_T = 33;
+  public static final int FDEF = 21;
+  public static final int LBRACE = 12;
+  public static final int ELSE = 20;
+  public static final int READ = 23;
+  public static final int FLOAT = 25;
+  public static final int THEN = 19;
+  public static final int RBRACE = 13;
+  public static final int FLOAT_T = 36;
+  public static final int ALIAS = 43;
+  public static final int RATIONAL_T = 38;
+  public static final int VOID_T = 40;
+  public static final int PRINT = 24;
+  public static final int DO = 26;
+  public static final int DICT_T = 41;
+  public static final int IDENTIFIER = 3;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "INTEGER",
   "IDENTIFIER",
-  "LET",
-  "ASSIGNMENT",
   "SEMICOL",
   "RATIONAL",
   "PLUS",
@@ -66,10 +79,27 @@ public class sym {
   "TDEF",
   "READ",
   "PRINT",
+  "FLOAT",
   "DO",
   "OD",
   "IF",
   "FI",
+  "OR",
+  "AND",
+  "NOT",
+  "BOOLEAN_T",
+  "CHAR_T",
+  "DICT_",
+  "FLOAT_T",
+  "INT_T",
+  "RATIONAL_T",
+  "SEQ_T",
+  "VOID_T",
+  "DICT_T",
+  "ASSIGNMENT",
+  "ALIAS",
+  "T",
+  "F",
   "BADCHAR"
   };
 }
