@@ -128,9 +128,12 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-  private boolean debug = false;
-  public boolean  debug()         {return debug;}
-  public void     debug(boolean b){debug = b;}
+  public Boolean syntaxErrors = false;
+
+  public void syntax_error(Symbol current_token){
+  report_error("Syntax error at line " + (current_token.left+1) +
+  ", column " + current_token.right + "\n", null);
+  }
 
   static class Node {
     public ArrayList<Node> children;

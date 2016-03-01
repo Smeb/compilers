@@ -9,6 +9,7 @@ public class sym {
   public static final int FORALL = 19;
   public static final int POW = 35;
   public static final int GTEQ = 38;
+  public static final int STRING_LITERAL = 17;
   public static final int LBRACKET = 15;
   public static final int MULT = 9;
   public static final int CHAR = 6;
@@ -37,7 +38,6 @@ public class sym {
   public static final int IN = 32;
   public static final int TDEF = 23;
   public static final int COMMA = 49;
-  public static final int STRINGTERM = 17;
   public static final int FI = 30;
   public static final int DIV = 10;
   public static final int INT_T = 55;
@@ -91,7 +91,7 @@ public class sym {
   "RBRACE",
   "LBRACKET",
   "RBRACKET",
-  "STRINGTERM",
+  "STRING_LITERAL",
   "FOR",
   "FORALL",
   "THEN",

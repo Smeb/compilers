@@ -1,4 +1,4 @@
-LANG = Main
+LANG = SC
 VERJFLEX = 1.6.0
 VERCUP = 11b
 

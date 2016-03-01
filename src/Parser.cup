@@ -5,9 +5,12 @@ scan with {: return lexer.next_token(); :};
 
 parser code {:
 
-  private boolean debug = false;
-  public boolean  debug()         {return debug;}
-  public void     debug(boolean b){debug = b;}
+  public Boolean syntaxErrors = false;
+
+  public void syntax_error(Symbol current_token){
+  report_error("Syntax error at line " + (current_token.left+1) +
+  ", column " + current_token.right + "\n", null);
+  }
 
   static class Node {
     public ArrayList<Node> children;
@@ -52,7 +55,8 @@ terminal INTEGER, IDENTIFIER, SEMICOLON, RATIONAL, CHAR;
 // set of operators
 terminal PLUS, MINUS, MULT, DIV;
 
-terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET, STRINGTERM;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET;
+terminal STRING_LITERAL;
 
 terminal FOR, FORALL, THEN, ELSE, FDEF, TDEF, READ, PRINT, FLOAT;
 terminal DO, OD, IF, FI, COLON, IN, WHILE, RETURN, POW, ELIF;
