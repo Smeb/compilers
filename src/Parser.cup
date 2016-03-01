@@ -74,3 +74,175 @@ precedence left PLUS, MINUS;
 precedence left DIV, MULT;
 
 top_level ::= PLUS;
+
+body ::= line
+      | line body
+
+line ::= funcResult:f SEMI  {: RESULT = (Node)f; :}
+        | operation:o SEMI {: RESULT = (Node)o; :}
+        | declaration:d SEMI {: RESULT = (Node)d; :}
+        | assignemnt:a SEMI {: RESULT = (Node)a; :}
+        | alias:a SEMI {: RESULT = (Node)a; :}
+        | controlStatement:c SEMI {: RESULT = (Node)c; :}
+        | returnStatement:r SEMI {: RESULT = (Node)r; :}
+        | readWrite:r SEMI {: RESULT = (Node)r :}
+
+operation = operable:o1 operator:s operable:o2  
+        {: Node n = (node)s;
+           n.addChild((node)o1);
+           n.addChild((node)o2);
+           RESULT = n;
+        :}
+        | LPAREN operation:o RPAREN
+        {: Node n = new Node("Parens");
+          n.addChild("(");
+          n.addChild(o);
+          n.addChild(")");
+          RESULT = n;
+        :}
+        | operation:o operator:s operable:o2
+        {: Node n = (node)s;
+           n.addChild((node)o1);
+           n.addChild((node)o2);
+           RESULT = n;
+        :}
+        | operable:o operator:s operation:o2
+        {: Node n = (node)s;
+           n.addChild((node)o1);
+           n.addChild((node)o2);
+           RESULT = n;
+        :}
+
+operable ::= number:n {: RESULT = (Node)n; :}
+        | BOOL:b {: RESULT = (Node)b; :}
+        | funcResult:f {: RESULT = (Node)f; :}
+
+number ::= FLOAT:f {: RESULT = (Node)f; :}
+        | INT:i {: RESULT = (Node)i; :}
+        | RAT:r {: RESULT = (Node)r; :}
+
+bool ::= BOOL:b {: RESULT = (Node)b; :}
+        | T:t {: RESULT = (Node)t; :}
+        | F:f {: RESULT = (Node)f; :}
+
+declaration ::= assignNameAndType:t ASSIGNMENT:a value:v 
+            {: Node n = (Node)a;
+              n.addChild(t);
+              n.addChild(v);
+              RESULT = n; 
+            :}
+
+type ::= primitive:p
+      | IDENTIFIER:i
+
+seqDictType ::= type
+            | TOP
+
+assignNameAndType ::= primitive:p IDENTIFIER 
+      | IDENTIFIER:i IDENTIFIER 
+
+value ::= RATIONAL:r {: RESULT = (Node)r; :}
+          | INTEGER:i {: RESULT = (Node)i; :}
+          | FLOAT:f {: RESULT = (Node)f; :}
+          | CHAR:c {: RESULT = (Node)c; :}
+          | value:v1 COLON value:v2
+          | LBRACKET RBRACKET
+          | LBRACKET valueList RBRACKET
+      NEED TO DO CUSTOM VALUES HERE TOO
+
+valueList ::= value 
+            | value COMMA value
+
+primitive ::= BOOLEAN_T:b {: RESULT = (Node)b; :}
+          | CHAR_T:c {: RESULT = (Node)c; :}
+          | DICT_T:d {: RESULT = (Node)d; :}
+          | FLOAT_T:f {: RESULT = (Node)f; :}
+          | INT_T:i {: RESULT = (Node)i; :}
+          | RATIONAL_T:r {: RESULT = new Node(r); :}
+          | SEQ_T:s {: RESULT = new Node(s); :}
+
+alias ::= ALIAS IDENTIFIER:i IDENTIFIER:i2
+        | ALIAS type:t IDENTIFIER:i
+
+
+controlStatement ::= ifSect:i {: RESULT = (Node)i; :}
+                  | whileSect:w {: RESULT = (Node)w; :}
+                  | forallSect:f {: RESULT = (Node)f; :}
+
+ifSect ::= IF ifSectHelper FI
+        | IF ifSectHelper ELSE body FI
+        | IF ifSectHelper elifHelper
+
+ifSectHelper ::= parenEval:p THEN body:b
+              {: Node n = (Node)p;
+                n.addChild(new Node("then"));
+                n.addChild(b);
+                RESULT = n;
+              :}
+
+elifHelper ::= ELIF ifSectHelper FI
+            | ELIF ifSectHelper ELSE body FI
+            | ELIF ifSectHelper ELSE body elifHelper
+            | ELIF ifSectHelper elifHelper
+
+whileSect ::= WHILE parenEval:p DO body OD
+
+forall ::= FORALL iterableParen:i DO body OD
+
+iterableParen ::= IDENTIFIER:i1 IN IDENTIFIER:i2
+
+parenEval ::= LPAREN boolExpression:b RPAREN
+            {: Node n = new Node("Parens");
+              n.addChild("(");
+              n.addChild(b);
+              n.addChild(")");
+              RESULT = n;
+            :}
+
+readWrite ::= READ IDENTIFIER:i {: Node n = new Node("read");
+                                  n.addChild((Node)i);
+                                  RESULT = n;
+                                :}
+            | PRINT IDENTIFIER:i 
+            | PRINT operation:o
+            | PRINT value
+
+
+tdef ::= TDEF IDENTIFIER LBRACE expressionList RBRACE
+
+expressionList ::= type
+                | type COMMA expressionList
+
+fdef ::= FDEF type IDENTIFIER LBRACE body RBRACE SEMI
+      | FDEF type IDENTIFIER LPAREN epressionList RPAREN LBRACE body RBRACE SEMI
+
+main ::= MAIN LBRACE body RBRACE SEMI
+
+seqDef ::= SEQ LANGLE seqDictType RANGLE IDENTIFIER
+
+dictDef ::= SEQ LANGLE secDictType COMMA secDictType RANGLE IDENTIFIER
+
+boolExpression ::= LPAREN bool:b1 RPAREN boolOperator bool:b2
+                | bool:b1 boolOperator LPAREN bool:b2 RPAREN
+                | bool:b1 boolOperator bool:b2
+
+bool ::= type
+      | T
+      | F
+      | notBool
+
+notBool ::= NOT bool
+
+boolOperator ::= OR
+              | AND
+
+returnStatement ::= RETURN IDENTIFIER:i {: Node n = new Node("return"); 
+                                n.addChild((Node)i);
+                                RESULT = n;
+                              :}
+                  | RETURN VOID
+
+
+
+
+
