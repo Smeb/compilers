@@ -1,0 +1,132 @@
+main ::= MAIN LBRACE body RBRACE
+
+body ::= line
+		| line body
+
+line ::= declaration SEMI
+		| assignment SEMI
+		| RETURN IDENTIFIER SEMI
+		| controlStatement SEMI
+		| alias SEMI
+		| readWrite SEMI
+		| concat SEMI
+
+assignment ::= IDENTIFIER ASSIGMENT exp
+
+declaration ::= typeAndID ASSIGMENT exp
+
+typeAndID ::= type IDENTIFIER
+
+typeAndIDListPrime ::= type
+					| typeAndIDList type
+
+typeAndIDList ::= type IDENTIFIER COMMA 
+				| type IDENTIFIER COMMA typeAndIDList
+
+exp ::= number
+	| CHAR
+	| exp operation exp
+	| parens
+	| functionCall
+	| seqDef
+	| dictDef
+	| arrayAccess
+
+arrayAccess ::= IDENTIFIER LBRACKET INT RBRACKET
+
+seqDef ::= LBRACKET expListPrime RBRACKET
+
+dictDef ::= LBRACE dictTupleListPrime RBRACKET
+
+dictTupleListPrime ::= dictTuple
+					| dictTupleList dictTuple
+
+dictTupleList ::= dictTuple COMMA
+				| dictTuple COMMA dictTupleList
+
+dictTuple ::= exp COLON exp
+
+expListPrime ::= exp 
+			 | expList exp
+
+expList ::= exp COMMA expList
+
+parens ::= LPAREN exp RPAREN
+
+operation ::= comparison
+			| CONCAT
+			| numericOps
+
+comparison ::= EQUALITY
+			| GREATER_THAN
+			| GREATER_THAN_EQUAL
+
+numericOps ::= PLUS
+			| MINUS
+			| MULT
+			| DIV
+			| POW
+
+functionCall ::= type LPAREN expList RPAREN
+
+controlStatement ::= ifStatement
+					| FORALL LPAREN IDENTIFIER IN exp RPAREN DO body OD
+					| WHILE LPAREN exp RPAREN DO body OD
+
+alias ::= ALIAS type type
+
+type ::= IDENTIFIER
+		| number_t
+		| CHAR_T
+		| seq_t
+		| dict_t
+		| BOOL_T
+
+seqDictType ::= type
+			| TOP
+
+seq_t ::= SEQ LANGLE secDictType RANGLE
+
+dict_t ::= DICT LANGLE secDictType COMMA secDictType RANGLE
+
+number_t ::= INT_T
+			| RATIONAL_T
+			| FLOAT_T
+
+ifStatement ::= IF ifHelper FI
+			| IF ifHelper elseHelper
+			| IF ifHelper elifHelper
+
+ifHelper ::= LPAREN exp RPAREN THEN body
+
+elifHelper ::= ELIF ifHelper
+			| ELIF ifHelper elseHelper
+			| elifHelper
+
+elseHelper ::= ELSE body FI
+			| ELSE body elifHelper
+
+number ::= INT
+		| float
+		| rational
+
+float ::= INT PERIOD INT
+
+rational ::= INT
+			| INT UNDERSCORE INT
+			| INT UNDERSCORE INT DIV INT
+			| INT DIV INT
+
+concat ::= exp CONCAT exp
+
+tdef ::= TDEF IDENTIFIER LBRACE typeAndIDList RBRACE
+
+fdef ::= FDEF IDENTIFIER LPAREN typeAndIDList RPAREN LBRACE body RBRACE SEMI
+
+readWrite ::= READ IDENTIFIER:i {: Node n = new Node("read");
+                                  n.addChild((Node)i);
+                                  RESULT = n;
+                                :}
+            | PRINT IDENTIFIER:i 
+            | PRINT operation:o
+            | PRINT value
