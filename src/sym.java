@@ -7,54 +7,66 @@
 public class sym {
   /* terminals */
   public static final int FORALL = 20;
+  public static final int POW = 36;
+  public static final int EQUALITY = 41;
   public static final int LBRACKET = 16;
   public static final int MULT = 10;
   public static final int CHAR = 7;
-  public static final int ASSIGNMENT = 45;
-  public static final int T = 47;
-  public static final int CHAR_T = 37;
+  public static final int ASSIGNMENT = 57;
+  public static final int T = 59;
+  public static final int PERIOD = 45;
+  public static final int CHAR_T = 48;
   public static final int INTEGER = 2;
-  public static final int DICT_ = 38;
+  public static final int DICT_ = 49;
   public static final int LPAREN = 12;
-  public static final int BADCHAR = 49;
+  public static final int BADCHAR = 61;
   public static final int FOR = 19;
   public static final int MINUS = 9;
-  public static final int F = 48;
+  public static final int F = 60;
+  public static final int GREATER_THAN = 42;
   public static final int RPAREN = 13;
-  public static final int NOT = 35;
-  public static final int AND = 34;
+  public static final int NOT = 40;
+  public static final int AND = 39;
   public static final int RATIONAL = 5;
-  public static final int SEQ_T = 42;
-  public static final int OR = 33;
+  public static final int SEQ_T = 53;
+  public static final int OR = 38;
+  public static final int IN = 33;
   public static final int TDEF = 24;
+  public static final int COMMA = 46;
   public static final int STRINGTERM = 18;
   public static final int SEMICOL = 4;
   public static final int FI = 31;
   public static final int DIV = 11;
-  public static final int INT_T = 40;
+  public static final int INT_T = 51;
   public static final int PLUS = 8;
+  public static final int MAIN = 56;
   public static final int IF = 30;
   public static final int EOF = 0;
+  public static final int RETURN = 35;
   public static final int OD = 29;
   public static final int RBRACKET = 17;
   public static final int error = 1;
-  public static final int BOOLEAN_T = 36;
+  public static final int BOOLEAN_T = 47;
   public static final int FDEF = 23;
   public static final int TOP = 6;
   public static final int COLON = 32;
   public static final int LBRACE = 14;
   public static final int ELSE = 22;
   public static final int READ = 25;
+  public static final int WHILE = 34;
   public static final int FLOAT = 27;
   public static final int THEN = 21;
   public static final int RBRACE = 15;
-  public static final int FLOAT_T = 39;
-  public static final int ALIAS = 46;
-  public static final int RATIONAL_T = 41;
-  public static final int VOID_T = 43;
+  public static final int FLOAT_T = 50;
+  public static final int UNDERSCORE = 44;
+  public static final int ALIAS = 58;
+  public static final int RATIONAL_T = 52;
+  public static final int LESS_THAN = 43;
+  public static final int ELIF = 37;
+  public static final int VOID_T = 54;
   public static final int PRINT = 26;
   public static final int DO = 28;
-  public static final int DICT_T = 44;
+  public static final int DICT_T = 55;
   public static final int IDENTIFIER = 3;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -90,9 +102,20 @@ public class sym {
   "IF",
   "FI",
   "COLON",
+  "IN",
+  "WHILE",
+  "RETURN",
+  "POW",
+  "ELIF",
   "OR",
   "AND",
   "NOT",
+  "EQUALITY",
+  "GREATER_THAN",
+  "LESS_THAN",
+  "UNDERSCORE",
+  "PERIOD",
+  "COMMA",
   "BOOLEAN_T",
   "CHAR_T",
   "DICT_",
@@ -102,6 +125,7 @@ public class sym {
   "SEQ_T",
   "VOID_T",
   "DICT_T",
+  "MAIN",
   "ASSIGNMENT",
   "ALIAS",
   "T",

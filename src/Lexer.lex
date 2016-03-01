@@ -40,17 +40,22 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
 <YYINITIAL> {
   /* iterator keywords in the language */
   "if"          { return symbol(sym.IF);         }
-  "fi"          { return symbol(sym.FI);         }
   "then"        { return symbol(sym.THEN);       }
   "else"        { return symbol(sym.ELSE);       }
+  "elif"        { return symbol(sym.ELIF);       }
+  "fi"          { return symbol(sym.FI);         }
+  "then"        { return symbol(sym.THEN);       }
+  "while"       { return symbol(sym.WHILE);      }
   "for"         { return symbol(sym.FOR);        }
   "forall"      { return symbol(sym.FORALL);     }
-  "print"       { return symbol(sym.PRINT);      }
-  "read"        { return symbol(sym.READ);       }
   "do"          { return symbol(sym.DO);         }
   "od"          { return symbol(sym.OD);         }
   ":"           { return symbol(sym.COLON);      }
+  "in"          { return symbol(sym.IN);         }
 
+  "print"       { return symbol(sym.PRINT);      }
+  "read"        { return symbol(sym.READ);       }
+  "return"      { return symbol(sym.RETURN);     }
   /* declarative symbols in the language */
   "fdef"        { return symbol(sym.FDEF);       }
   "tdef"        { return symbol(sym.TDEF);       }
@@ -73,6 +78,7 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   /* TODO: implement rational correctly */
 
   /* types in the language */
+  "top"         { return symbol(sym.TOP);        }
   "bool"        { return symbol(sym.BOOLEAN_T);  }
   "char"        { return symbol(sym.CHAR_T);     }
   "dict"        { return symbol(sym.DICT_T);     }
@@ -81,16 +87,25 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   "rat"         { return symbol(sym.RATIONAL_T); }
   "seq"         { return symbol(sym.SEQ_T);      }
   "void"        { return symbol(sym.VOID_T);     }
-  "top"         { return symbol(sym.TOP);        }
 
 
   {Whitespace}  { /* do nothing */               }
+
+  /* Mathematical Operators */
   "="           { return symbol(sym.ASSIGNMENT); }
-  ";"           { return symbol(sym.SEMICOL);    }
   "+"           { return symbol(sym.PLUS);       }
   "-"           { return symbol(sym.MINUS);      }
   "*"           { return symbol(sym.MULT);       }
   "/"           { return symbol(sym.DIV);        }
+  "^"           { return symbol(sym.POW);        }
+  "_"           { return symbol(sym.UNDERSCORE); }
+  "main"        { return symbol(sym.MAIN);       }
+  "."           { return symbol(sym.PERIOD);     } // Do we need a period symbol to concat names?
+
+  /* Comparison Operators */
+  "=="          { return symbol(sym.EQUALITY); }
+  ">"           { return symbol(sym.GREATER_THAN); }
+  "<"           { return symbol(sym.LESS_THAN);    }
 
   /* Sequence terminals */
   "("           { return symbol(sym.LPAREN);     }
@@ -103,6 +118,8 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   "||"          { return symbol(sym.OR);         }
   "&&"          { return symbol(sym.AND);        }
    "!"          { return symbol(sym.NOT);        }
+  ","           { return symbol(sym.COMMA);      }
+  ";"           { return symbol(sym.SEMICOL);    }
 
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 }
