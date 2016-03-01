@@ -68,10 +68,28 @@ terminal T, F;
 
 terminal BADCHAR;
 
-nonterminal statements, statement, top_level;
+nonterminal statements, statement, program;
 nonterminal full_exp, simple_exp, operator;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
 
-top_level ::= PLUS;
+start with program;
+
+// Worth looking into
+program ::= functions main | main functons | main | functions main functions;
+
+functions ::=  function_def functions | FDEF;
+function_def ::= FDEF type IDENTIFIER LPAREN parameter_list RPAREN function_body LBRACE RBRACE;
+
+sequence ::= SEQ LT type GT;
+type ::= IDENTIFIER; // Identifier since alias can map types to names
+      | TOP_T
+      | BOOLEAN_T
+      | CHAR_T
+      | DICT_T
+      | FLOAT_T
+      | INT_T
+      | RATIONAL_T
+      | SEQ_T
+      | VOID_T

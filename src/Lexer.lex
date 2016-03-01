@@ -78,7 +78,7 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   /* TODO: implement rational correctly */
 
   /* types in the language */
-  "top"         { return symbol(sym.TOP);        }
+  "top"         { return symbol(sym.TOP_T);        }
   "bool"        { return symbol(sym.BOOLEAN_T);  }
   "char"        { return symbol(sym.CHAR_T);     }
   "dict"        { return symbol(sym.DICT_T);     }
