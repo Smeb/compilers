@@ -12,30 +12,29 @@ import java_cup.runtime.*;
   private boolean debug_mode;
   public  boolean debug()            { return debug_mode; }
   public  void    debug(boolean mode){ debug_mode = mode; }
+  StringBuffer string = new StringBuffer();
 
   private Symbol symbol(int type) {
     return new Symbol(type, yyline, yycolumn);
   }
+
   private Symbol symbol(int type, Object value) {
     return new Symbol(type, yyline, yycolumn, value);
   }
-
 %}
-
 
 Whitespace = \r|\n|\r\n|" "|"\t"
 Letter = [a-zA-Z]
 Digit = [0-9]
 Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
-AcceptedChar = ({Letter}|" "|{Digit})
-IdChar = {Letter} | {Digit} | "_"
-Identifier = {Letter}{IdChar}*
+AcceptedChar = ({Letter}|"_"|{Digit})
+Identifier = {Letter}{AcceptedChar}*
 Integer = (0|[1-9]{Digit}*)
-Rational = ({Integer}_)?{Integer}\/{Integer}
-Float = {Integer}.{Integer}
+Rational = ({Integer}_)?{Integer}"/"{Integer}
+Float = {Integer}.{Digit}+
 Char = \'({Letter}|{Digit}|{Punctuation})\'
 
-%state STRING, CHAR, IN_COMMENT, END_L_COMMENT
+%state STRING
 %%
 <YYINITIAL> {
   /* iterator keywords in the language */
@@ -44,14 +43,14 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   "else"        { return symbol(sym.ELSE);       }
   "elif"        { return symbol(sym.ELIF);       }
   "fi"          { return symbol(sym.FI);         }
-  "then"        { return symbol(sym.THEN);       }
   "while"       { return symbol(sym.WHILE);      }
   "for"         { return symbol(sym.FOR);        }
   "forall"      { return symbol(sym.FORALL);     }
   "do"          { return symbol(sym.DO);         }
   "od"          { return symbol(sym.OD);         }
-  ":"           { return symbol(sym.COLON);      }
   "in"          { return symbol(sym.IN);         }
+  "len"         { return symbol(sym.LEN);        }
+  "main"        { return symbol(sym.MAIN);       }
 
   "print"       { return symbol(sym.PRINT);      }
   "read"        { return symbol(sym.READ);       }
@@ -62,7 +61,7 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
 
   {Rational}    { return symbol(sym.RATIONAL);   }
   {Integer}     { return symbol(sym.INTEGER,
-                    Integer.parseInt(yytext())); }
+      Integer.parseInt(yytext())); }
   {Float}       { return symbol(sym.FLOAT);      }
 
   {Char}        {
@@ -78,7 +77,7 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   /* TODO: implement rational correctly */
 
   /* types in the language */
-  "top"         { return symbol(sym.TOP_T);        }
+  "top"         { return symbol(sym.TOP_T);      }
   "bool"        { return symbol(sym.BOOLEAN_T);  }
   "char"        { return symbol(sym.CHAR_T);     }
   "dict"        { return symbol(sym.DICT_T);     }
@@ -99,14 +98,19 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   "/"           { return symbol(sym.DIV);        }
   "^"           { return symbol(sym.POW);        }
   "_"           { return symbol(sym.UNDERSCORE); }
-  "main"        { return symbol(sym.MAIN);       }
   "."           { return symbol(sym.PERIOD);     } // Do we need a period symbol to concat names?
+  ":"           { return symbol(sym.COLON);      }
+  "::"          { return symbol(sym.APPEND);     }
 
   /* Comparison Operators */
-  "=="          { return symbol(sym.EQUALITY); }
-  ">"           { return symbol(sym.GREATER_THAN); }
-  "<"           { return symbol(sym.LESS_THAN);    }
+  "=="          { return symbol(sym.EQ);         }
+  "!="          { return symbol(sym.NEQ);        }
+  "<"           { return symbol(sym.LT);         }
+  "<="          { return symbol(sym.LTEQ);       }
+  ">="          { return symbol(sym.GTEQ);       }
 
+  /* Misc symbols */
+  ">"           { return symbol(sym.GT);         }
   /* Sequence terminals */
   "("           { return symbol(sym.LPAREN);     }
   ")"           { return symbol(sym.RPAREN);     }
@@ -114,22 +118,32 @@ Char = \'({Letter}|{Digit}|{Punctuation})\'
   "}"           { return symbol(sym.RBRACE);     }
   "["           { return symbol(sym.LBRACKET);   }
   "]"           { return symbol(sym.RBRACKET);   }
-  \"            { return symbol(sym.STRINGTERM); }
+  \"            { string.setLength(0);
+                  yybegin(STRING);
+                  }
+
   "||"          { return symbol(sym.OR);         }
   "&&"          { return symbol(sym.AND);        }
-   "!"          { return symbol(sym.NOT);        }
+  "!"           { return symbol(sym.NOT);        }
   ","           { return symbol(sym.COMMA);      }
-  ";"           { return symbol(sym.SEMICOL);    }
+  ";"           { return symbol(sym.SEMICOLON);    }
 
-  {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
+{Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 }
 
 <STRING>{
-  \"            { return symbol(sym.STRINGTERM); }
+  \\\"           { string.append('\"');          }
+  \"             { return symbol(sym.STRINGTERM); }
+  \\t            { string.append("\t");}
+  \\n            { string.append("\n");}
+  \\r            { string.append("\r");}
+  \\f            { string.append("\f");}
+  \\b            { string.append("\b");}
+  \\'            { string.append("'");}
 }
 
 [^]  {
   System.out.println("file:" + (yyline+1) +
-    ":0: Error: Invalid input '" + yytext()+"'");
+      ":0: Error: Invalid input '" + yytext()+"'");
   return symbol(sym.BADCHAR);
 }
