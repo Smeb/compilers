@@ -49,29 +49,33 @@ parser code {:
 
 :};
 
-// Do something with ILLEGAL_CHARARCTER or drop it.
-// define the set of atomic types
-terminal INTEGER, IDENTIFIER, SEMICOLON, RATIONAL, CHAR;
+// define the set of atomic terminal types
+terminal BOOLEAN_T, CHAR_T, DICT_, FLOAT_T, INT_T, RATIONAL_T, SEQ_T,
+TOP_T, VOID_T, DICT_T;
+
 // set of operators
-terminal PLUS, MINUS, MULT, DIV;
+terminal PLUS, MINUS, MULT, DIV,  POW;
 
+// set of formatted data types
+terminal FLOAT, INTEGER, STRING_LITERAL, IDENTIFIER, CHAR, T, F,
+RATIONAL;
+// bracket symbols
 terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET;
-terminal STRING_LITERAL;
 
-terminal FOR, FORALL, THEN, ELSE, FDEF, TDEF, READ, PRINT, FLOAT;
-terminal DO, OD, IF, FI, COLON, IN, WHILE, RETURN, POW, ELIF;
+// logical flow keywords
+terminal DO, OD, IF, FI, FOR, FORALL, THEN, ELSE, WHILE, ELIF, RETURN;
+
+// language keywords
+terminal FDEF, TDEF, READ, PRINT, COLON, IN, SEMICOLON, APPEND, GT,
+UNDERSCORE, PERIOD, COMMA, LEN, ASSIGNMENT, ALIAS;
 
 // Comparsion operators
 terminal LTEQ, GTEQ, NEQ, EQ, LT;
-
+// logical comparison operators
 terminal OR, AND, NOT;
-terminal APPEND, GT, UNDERSCORE, PERIOD, COMMA, LEN;
 
-terminal BOOLEAN_T, CHAR_T, DICT_, FLOAT_T, INT_T, RATIONAL_T, SEQ_T, TOP_T;
-terminal VOID_T, DICT_T, MAIN;
-terminal ASSIGNMENT, ALIAS;
 
-terminal T, F;
+terminal MAIN;
 
 terminal BADCHAR;
 
