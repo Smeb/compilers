@@ -1,3 +1,8 @@
+typeAndID ::= type IDENTIFIER
+
+typeAndIDListPrime ::= type
+					| typeAndIDList type
+
 main ::= MAIN LBRACE body RBRACE
 
 body ::= line
@@ -15,12 +20,8 @@ assignment ::= IDENTIFIER ASSIGMENT exp
 
 declaration ::= typeAndID ASSIGMENT exp
 
-typeAndID ::= type IDENTIFIER
 
-typeAndIDListPrime ::= type
-					| typeAndIDList type
-
-typeAndIDList ::= type IDENTIFIER COMMA 
+typeAndIDList ::= type IDENTIFIER COMMA
 				| type IDENTIFIER COMMA typeAndIDList
 
 exp ::= number
@@ -46,7 +47,7 @@ dictTupleList ::= dictTuple COMMA
 
 dictTuple ::= exp COLON exp
 
-expListPrime ::= exp 
+expListPrime ::= exp
 			 | expList exp
 
 expList ::= exp COMMA expList
@@ -119,14 +120,4 @@ rational ::= INT
 
 concat ::= exp CONCAT exp
 
-tdef ::= TDEF IDENTIFIER LBRACE typeAndIDList RBRACE
 
-fdef ::= FDEF IDENTIFIER LPAREN typeAndIDList RPAREN LBRACE body RBRACE SEMI
-
-readWrite ::= READ IDENTIFIER:i {: Node n = new Node("read");
-                                  n.addChild((Node)i);
-                                  RESULT = n;
-                                :}
-            | PRINT IDENTIFIER:i 
-            | PRINT operation:o
-            | PRINT value

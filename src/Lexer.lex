@@ -85,7 +85,7 @@ Integer = (0|[1-9]{Digit}*)
     "int"         { return symbol(sym.INT_T);      }
     "rat"         { return symbol(sym.RATIONAL_T); }
     "seq"         { return symbol(sym.SEQ_T);      }
-    "void"        { return symbol(sym.VOID_T);     }
+    "void"        { return symbol(sym.VOID);     }
 
 
     {Whitespace}  { /* do nothing */               }
@@ -105,11 +105,11 @@ Integer = (0|[1-9]{Digit}*)
     /* Comparison Operators */
     "=="          { return symbol(sym.EQ);         }
     "!="          { return symbol(sym.NEQ);        }
-    "<"           { return symbol(sym.LT);         }
+    "<"           { return symbol(sym.LANGLE);         }
     "<="          { return symbol(sym.LTEQ);       }
 
     /* Misc symbols */
-    ">"           { return symbol(sym.GT);         }
+    ">"           { return symbol(sym.RANGLE);         }
     /* Sequence terminals */
     "("           { return symbol(sym.LPAREN);     }
     ")"           { return symbol(sym.RPAREN);     }
