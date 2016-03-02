@@ -57,12 +57,10 @@ Integer = (0|[1-9]{Digit}*)
     "seq"         { return symbol(sym.SEQ_T);      }
     "["           { return symbol(sym.LBRACKET);   }
     "]"           { return symbol(sym.RBRACKET);   }
-
-  ","           { return symbol(sym.COMMA);      }
-/*
-
     "<"           { return symbol(sym.LANGLE);     }
     ">"           { return symbol(sym.RANGLE);     }
+    ","           { return symbol(sym.COMMA);      }
+/*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
     "else"        { return symbol(sym.ELSE);       }
