@@ -21,34 +21,57 @@ parser code {:
 terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
-  terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA;
+  terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA, LBRACE, RBRACE,
+  COLON;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
   terminal STRING_LITERAL;
   /* language types */
-  terminal SEQ_T;
+  terminal SEQ_T, DICT_T;
 
 /** parsing constructs **/
+  /* structural constructs */
+  nonterminal program;
   /* low level constructs */
   nonterminal collection, item, type;
   nonterminal expression;
   /* collection implementors */
-  nonterminal sequence_decl, sequence_start, sequence_body; /* dict_decl, dict_body; */
+nonterminal sequence_decl, sequence_start, sequence_contents,
+sequence_body, dict_decl, dict_start, dict_contents, dict_body,
+dict_value;
+
+program ::= sequence_decl
+          | sequence_start
+          | dict_decl
+          | dict_start
+          ;
 
 expression ::= item
             | collection
             ;
 
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
-collection ::= STRING_LITERAL;
-sequence_decl ::= SEQ_T LBRACKET type RBRACKET;
 type ::= SEQ_T;
 
-sequence_start ::= sequence_body
+collection ::= STRING_LITERAL;
+sequence_decl ::= SEQ_T LANGLE type RANGLE;
+
+sequence_start ::= LBRACKET sequence_contents RBRACKET;
+sequence_contents ::= sequence_body
                 |
                 ;
 
-sequence_body ::= sequence_body COMMA expression
-                | expression
+sequence_body ::= expression
+                | sequence_body COMMA expression
                 ;
+
+dict_decl ::= DICT_T LANGLE type COMMA type RANGLE;
+dict_start ::= LBRACE dict_contents RBRACE;
+dict_contents ::= dict_body
+              |
+              ;
+dict_body ::= dict_value
+          | dict_body COMMA dict_value
+          ;
+dict_value ::= expression COLON expression;

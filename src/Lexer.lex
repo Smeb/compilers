@@ -59,7 +59,10 @@ Integer = (0|[1-9]{Digit}*)
     "]"           { return symbol(sym.RBRACKET);   }
     "<"           { return symbol(sym.LANGLE);     }
     ">"           { return symbol(sym.RANGLE);     }
+    "{"           { return symbol(sym.LBRACE);     }
+    "}"           { return symbol(sym.RBRACE);     }
     ","           { return symbol(sym.COMMA);      }
+    ":"           { return symbol(sym.COLON);      }
 /*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
@@ -108,7 +111,6 @@ Integer = (0|[1-9]{Digit}*)
     "^"           { return symbol(sym.POW);        }
     "_"           { return symbol(sym.UNDERSCORE); }
     "."           { return symbol(sym.DOT);        }
-    ":"           { return symbol(sym.COLON);      }
     "::"          { return symbol(sym.APPEND);     }
 
     /* Comparison Operators */
@@ -120,8 +122,6 @@ Integer = (0|[1-9]{Digit}*)
     /* Sequence terminals */
     "("           { return symbol(sym.LPAREN);     }
     ")"           { return symbol(sym.RPAREN);     }
-    "{"           { return symbol(sym.LBRACE);     }
-    "}"           { return symbol(sym.RBRACE);     }
 
   "||"          { return symbol(sym.OR);         }
   "&&"          { return symbol(sym.AND);        }
