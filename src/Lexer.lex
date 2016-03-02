@@ -24,6 +24,7 @@ import java_cup.runtime.*;
 %}
 
   Whitespace = \r|\n|\r\n|" "|"\t"
+  Bool = [T|F]
   Letter = [a-zA-Z]
   Digit = [0-9]
   Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
@@ -38,6 +39,29 @@ Integer = (0|[1-9]{Digit}*)
 %%
   <YYINITIAL> {
     /* iterator keywords in the language */
+    {Whitespace}  { /* do nothing */               }
+    {Bool}        { return symbol(sym.BOOL);       }
+    {Char}        {
+                    return symbol(
+                        sym.CHAR,
+                        yytext());
+                  }
+    {Float}       { return symbol(sym.FLOAT);      }
+    {Integer}     { return symbol(sym.INTEGER,
+        Integer.parseInt(yytext())); }
+    {Rational}    { return symbol(sym.RATIONAL);   }
+
+    \"            { string.setLength(0);
+    yybegin(STRING);}
+
+    "seq"         { return symbol(sym.SEQ_T);      }
+    "["           { return symbol(sym.LBRACKET);   }
+    "]"           { return symbol(sym.RBRACKET);   }
+
+/*
+
+    "<"           { return symbol(sym.LANGLE);     }
+    ">"           { return symbol(sym.RANGLE);     }
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
     "else"        { return symbol(sym.ELSE);       }
@@ -59,19 +83,7 @@ Integer = (0|[1-9]{Digit}*)
     "fdef"        { return symbol(sym.FDEF);       }
     "tdef"        { return symbol(sym.TDEF);       }
 
-    {Rational}    { return symbol(sym.RATIONAL);   }
-    {Integer}     { return symbol(sym.INTEGER,
-        Integer.parseInt(yytext())); }
-    {Float}       { return symbol(sym.FLOAT);      }
 
-    {Char}        {
-                    return symbol(
-                        sym.CHAR,
-                        yytext());
-                  }
-
-    "T"           { return symbol(sym.T);          }
-    "F"           { return symbol(sym.F);          }
     "alias"       { return symbol(sym.ALIAS);      }
 
     /* TODO: implement rational correctly */
@@ -84,11 +96,9 @@ Integer = (0|[1-9]{Digit}*)
     "float"       { return symbol(sym.FLOAT_T);    }
     "int"         { return symbol(sym.INT_T);      }
     "rat"         { return symbol(sym.RATIONAL_T); }
-    "seq"         { return symbol(sym.SEQ_T);      }
     "void"        { return symbol(sym.VOID);     }
 
 
-    {Whitespace}  { /* do nothing */               }
 
     /* Mathematical Operators */
     "="           { return symbol(sym.ASSIGNMENT); }
@@ -105,20 +115,14 @@ Integer = (0|[1-9]{Digit}*)
     /* Comparison Operators */
     "=="          { return symbol(sym.EQ);         }
     "!="          { return symbol(sym.NEQ);        }
-    "<"           { return symbol(sym.LANGLE);     }
     "<="          { return symbol(sym.LTEQ);       }
 
     /* Misc symbols */
-    ">"           { return symbol(sym.RANGLE);     }
     /* Sequence terminals */
     "("           { return symbol(sym.LPAREN);     }
     ")"           { return symbol(sym.RPAREN);     }
     "{"           { return symbol(sym.LBRACE);     }
     "}"           { return symbol(sym.RBRACE);     }
-    "["           { return symbol(sym.LBRACKET);   }
-    "]"           { return symbol(sym.RBRACKET);   }
-    \"            { string.setLength(0);
-    yybegin(STRING);}
 
   "||"          { return symbol(sym.OR);         }
   "&&"          { return symbol(sym.AND);        }
@@ -127,7 +131,8 @@ Integer = (0|[1-9]{Digit}*)
   ";"           { return symbol(sym.SEMICOLON);  }
 
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
-  }
+*/
+}
 
 <STRING>{
   \"            { yybegin(YYINITIAL); return symbol(sym.STRING_LITERAL,
@@ -142,10 +147,4 @@ Integer = (0|[1-9]{Digit}*)
   "\\\""  { string.append( '\"' ); }
   "\\'"   { string.append( '\'' ); }
   "\\\\"  { string.append( '\\' ); }
-}
-
-[^]  {
-  System.out.println("file:" + (yyline+1) +
-      ":0: Error: Invalid input '" + yytext()+"'");
-  return symbol(sym.BADCHAR);
 }

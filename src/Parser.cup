@@ -9,35 +9,6 @@ parser code {:
   report_error("Syntax error at line " + (current_token.left+1) +
   ", column " + current_token.right + "\n", null);
   }
-
-  static class Node {
-    public ArrayList<Node> children;
-    private static int globalCounter = 0;
-
-    public int counter;
-    private Object value;
-
-    public Node(Object value){
-      Node.globalCounter += 1;
-      this.counter = Node.globalCounter;
-      this.value = value;
-      this.children = new ArrayList<Node>();
-    }
-
-    public void addChild(Node n){ children.add(n); }
-
-    public String toString(){
-      String ret = "";
-      ret += String.format("%d [label=\"%s\"];\n",
-                            counter, value.toString());
-      for(Node n: children){
-        ret += String.format("%d -> %d;\n", this.counter, n.counter);
-        ret += n.toString();
-      }
-      return ret;
-    }
-  }
-
   private Lexer lexer;
 
   public Parser(Lexer lex) {
@@ -47,203 +18,36 @@ parser code {:
 
 :}
 
-// define the set of atomic terminal types
-terminal BOOLEAN_T, CHAR_T, DICT_, FLOAT_T, INT_T, RATIONAL_T, SEQ_T,
-TOP_T, DICT_T;
-
-// set of operators
-terminal PLUS, MINUS, MULT, DIV,  POW;
-
-// set of formatted data types
-terminal FLOAT, INTEGER, STRING_LITERAL, IDENTIFIER, CHAR, T, F,
-RATIONAL;
-
-// bracket symbols
-terminal LPAREN, RPAREN, LBRACE, RBRACE, LBRACKET, RBRACKET;
-
-// logical flow keywords
-terminal DO, OD, IF, FI, FOR, FORALL, THEN, ELSE, WHILE, ELIF, RETURN;
-
-// language keywords
-terminal FDEF, TDEF, READ, PRINT, COLON, IN, SEMICOLON, APPEND, RANGLE,
-UNDERSCORE, DOT, COMMA, LEN, ASSIGNMENT, ALIAS, VOID;
-
-// Comparsion operators
-terminal LTEQ, NEQ, EQ, LANGLE;
-// logical comparison operators
-terminal OR, AND, NOT;
-
-
-terminal MAIN;
-
 terminal BADCHAR;
+/** primitives **/
+  /* syntactic smybols */
+  terminal LBRACKET, RBRACKET;
+  /* items */
+  terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
+  /* collections */
+  terminal STRING_LITERAL;
+  /* language types */
+  terminal SEQ_T;
 
-nonterminal program, declarations, declaration, var_declaration,
-func_declaration, type_declaration, alias_declaration, expression,
-non_primitive, literal, evaluable, l_r_operator, main, statements,
-declaration_list_prime, declaration_list, function_call,
-statement, mutator, slice_op, index_op, nullable, concat, type_id_pair,
-type, type_with_top, dict_t, sequence_t, sequence_definition,
-expression_list_prime, expression_list, expression_list_end, dict_definition,
-dict_list, dict_list_builder, dict_elem, ftype, parameters,
-valid_dot_prefix, opt_index_op, primitive, io_op, collection,
-dict_items, dict_item_builder;
+/** parsing constructs **/
+  /* low level constructs */
+  nonterminal collection, item;
+  nonterminal expression;
+  /* collection implementors */
+  nonterminal sequence_decl, sequence_body; /* dict_decl, dict_body; */
 
-precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
-precedence right POW, IN, ASSIGNMENT;
-precedence nonassoc NOT, LBRACE, LTEQ, RANGLE, EQ, NEQ;
+expression ::= item
+            | collection
+            ;
 
-start with program;
+item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
+collection ::= STRING_LITERAL;
+sequence_decl ::= SEQ_T LBRACKET sequence_start RBRACKET;
 
-// program main body can come before and after other declarations but
-// there can only be one, like in Highlander
-program ::= declarations main declarations;
-
-declarations ::= declaration SEMICOLON declarations
-              |
-              ;
-
-declaration  ::= var_declaration
-              |  func_declaration
-              |  type_declaration
-              |  alias_declaration
-              ;
-
-
-var_declaration ::= type_id_pair
-                | type expression
+sequence_start ::= sequence_body
+                |
                 ;
 
-func_declaration ::= FDEF ftype IDENTIFIER LPAREN parameters RPAREN
-LBRACE statements RBRACE;
-type_declaration ::= TDEF IDENTIFIER LBRACE type_id_pair declaration_list_prime RBRACE;
-alias_declaration ::= ALIAS type IDENTIFIER;
-
-// intense debugging
-// we would accept function index_op however
-valid_dot_prefix ::= IDENTIFIER opt_index_op
-                  | sequence_definition index_op
-                  | dict_definition index_op
-                  ;
-
-opt_index_op ::= index_op
-              |
-              ;
-
-primitive ::= CHAR
-          | F
-          | FLOAT
-          | INTEGER
-          | RATIONAL
-          | T
-          ;
-
-collection ::= STRING_LITERAL
-            | sequence_definition
-            | dict_definition
-            ;
-
-expression ::= primitive
-            ;
-
-/*
-evaluable ::= NOT expression
-          | expression AND expression
-          | expression DIV expression
-          | expression EQ expression
-          | expression IN expression
-          | expression LANGLE expression
-          | expression LTEQ expression
-          | expression MINUS expression
-          | expression MULT expression
-          | expression NEQ expression
-          | expression OR expression
-          | expression PLUS expression
-          | expression POW expression
-          | LEN LPAREN expression RPAREN
-          | MINUS expression
-          | LPAREN expression RPAREN
-          | function_call
-          | literal
-          ;
-*/
-
-main ::= MAIN LBRACE statements RBRACE SEMICOLON;
-
-
-statements ::= statement SEMICOLON statements
-            |
-            ;
-
-parameters ::= declaration_list
-            |
-            ;
-
-declaration_list ::= declaration_list COMMA type IDENTIFIER
-                  | declaration_list COMMA IDENTIFIER
-                  | type IDENTIFIER
-                  | IDENTIFIER IDENTIFIER
-                  ;
-
-function_call ::= IDENTIFIER LPAREN expression_list_prime  RPAREN;
-
-
-// TODO: wtf is happening?!
-mutator ::= index_op mutator
-        | slice_op mutator
-        |
-        ;
-
-slice_op ::= LBRACKET nullable COLON nullable RBRACKET;
-index_op ::= LBRACKET expression mutator RBRACKET;
-
-nullable ::= expression mutator
-          |
-          ;
-
-concat ::= expression COLON COLON expression;
-io_op ::= READ IDENTIFIER
-        | PRINT expression
-        ;
-
-type_id_pair ::= type IDENTIFIER;
-// types
-type ::= BOOLEAN_T
-      | CHAR_T
-      | dict_t
-      | FLOAT_T
-      | INT_T
-      | RATIONAL_T
-      | sequence_t
-      ;
-
-type_with_top ::= type
-              | TOP_T
-              ;
-
-dict_t ::= DICT_T LANGLE type_with_top COMMA type_with_top RANGLE;
-sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
-sequence_definition ::= LBRACKET expression_list RBRACKET;
-
-expression_list_prime ::= expression_list COMMA expression
-                 | expression
-                 |
-                 ;
-
-expression_list ::= expression COMMA expression_list
-                  |
-                 ;
-
-dict_definition ::= LBRACE dict_items RBRACE;
-
-dict_items ::= dict_item_builder
-            |
-            ;
-
-dict_item_builder ::= expression COLON expression
-                  | dict_item_builder COMMA expression COLON expression
-                  ;
-
-ftype ::= type
-      | VOID
-      ;
+sequence_body ::= sequence_body COMMA expression
+                | expression
+                ;
