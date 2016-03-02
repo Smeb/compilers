@@ -107,7 +107,6 @@ Integer = (0|[1-9]{Digit}*)
     "!="          { return symbol(sym.NEQ);        }
     "<"           { return symbol(sym.LT);         }
     "<="          { return symbol(sym.LTEQ);       }
-    ">="          { return symbol(sym.GTEQ);       }
 
     /* Misc symbols */
     ">"           { return symbol(sym.GT);         }

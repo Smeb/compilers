@@ -70,7 +70,7 @@ terminal FDEF, TDEF, READ, PRINT, COLON, IN, SEMICOLON, APPEND, GT,
 UNDERSCORE, PERIOD, COMMA, LEN, ASSIGNMENT, ALIAS;
 
 // Comparsion operators
-terminal LTEQ, GTEQ, NEQ, EQ, LT;
+terminal LTEQ, NEQ, EQ, LT;
 // logical comparison operators
 terminal OR, AND, NOT;
 
@@ -90,8 +90,14 @@ precedence left DIV, MULT;
 
 start with program;
 
-// Worth looking into
-program ::= functions main | main functions | main | functions main functions;
+// program main body can come before and after other declarations but
+// there can only be one, like in Highlander
+program ::= declarations main declarations;
+declarations ::= declaration SEMICOL declarations
+declaration  ::= vardeclaration
+              |  funcdeclaration
+              |  typedeclaratiion
+              |  alias
 
 main ::= MAIN LBRACE function_body RBRACE;
 
