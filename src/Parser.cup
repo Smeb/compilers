@@ -80,13 +80,14 @@ terminal MAIN;
 
 terminal BADCHAR;
 
-nonterminal program, main;
-nonterminal function_body, function_def, functions, parameter_list;
-nonterminal vardeclaration, funcdeclaration, typedeclaration, alias;
-nonterminal statements, statement;
-nonterminal sequence, type;
-nonterminal full_exp, simple_exp, operator;
-nonterminal dict_definition, sequence_definition;
+nonterminal program, declarations, declaration, var_declaration,
+func_declaration, type_declaration, alias_declaration, expression,
+non_primitive, literal, evaluable, l_r_operator, main, statements,
+declaration_list_prime, declaration_list, function_call,
+statement, mutator, slice_op, index_op, nullable, concat, type_id_pair,
+type, type_with_top, dict_t, sequence_t, sequence_definition,
+expression_list_prime, expression_list, dict_definition,
+dict_list_prime, dict_list, dict_elem, ftype, parameters;
 
 precedence left PLUS, MINUS;
 precedence left DIV, MULT;
@@ -108,12 +109,53 @@ declaration  ::= var_declaration
 var_declaration ::= type_id_pair
                 | type expression
 
-func_declaration ::= FDEF functype IDENTIFIER LPAREN declarations RPAREN
+func_declaration ::= FDEF functype IDENTIFIER LPAREN parameters RPAREN
 LBRACE statements RBRACE;
 type_declaration ::= TDEF IDENTIFIER LBRACE declaration_list_prime RBRACE;
 alias_declaration ::= ALIAS type IDENTIFIER;
 
-expression ::= IDENTIFIER ASSIGNMENT <foo> //TODO: expression
+expression ::= literal
+            | evaluable
+            | function_call
+            | non_primitive DOT IDENTIFIER
+
+// intense debugging
+non_primitive ::= IDENTIFIER
+              | IDENTIFIER index_op
+              | sequence_definition index_op
+              | dict_definition index_op
+              | function_call
+              | function_call index_op
+
+literal ::= STRING_LITERAL
+          | sequence_definition
+          | dict_definition
+          | CHAR
+          | F
+          | FLOAT
+          | INTEGER
+          | RATIONAL
+          | T
+
+evaluable ::= NOT expression
+          | expression l_r_operator expression
+          | LEN LPAREN expression RPAREN
+          | expression IN expression
+          | MINUS expression
+          | LPAREN expression RPAREN
+
+l_r_operator ::= AND
+              | OR
+              | PLUS
+              | MINUS
+              | TIMES
+              | DIV
+              | POW
+              | LANGLE
+              | LTEQ
+              | EQ
+              | NEQ
+              | OR
 
 main ::= MAIN LBRACE statements RBRACE SEMICOLON;
 
@@ -121,32 +163,32 @@ statements ::= statement SEMICOLON statements
             |
             ;
 
-declarations ::= type_id_pair
+parameters ::= type_id_pair
             | declaration_list type_id_pair
             |
             ;
 
 declarataion_list_prime ::= type_id_pair COMMA declaration_list
-type_id_pair
+              type_id_pair
             | type_id_pair;
 
 declaration_list ::= type_id_pair COMMA declaration_list
                   |
                   ;
 
-function_call ::= IDENTIFIER LPAREN declarations RPAREN
+function_call ::= IDENTIFIER LPAREN expression_list_prime  RPAREN
 
 statement ::=
 
-index_op ::= LBRACKET expression RBRACKET
-
+// TODO: wtf is happening?!
 mutator ::= index_op mutator
         | slice_op mutator
         |
 
 slice_op ::= LRACKET nullable COLON nullable RBRACKET
+index_op ::= LBRACKET expression mutator RBRACKET
 
-nullable ::= expression
+nullable ::= expression mutator
           |
 
 concat ::= expression CONCAT expression
@@ -165,13 +207,15 @@ type ::= IDENTIFIER // Identifier since alias can map types to names
       | INT_T
       | RATIONAL_T
       | sequence_t
+
 type_with_top ::= type
               | TOP_T
+
 dict_t ::= DICT LANGLE type_with_top COMMA type_with_top RANGLE
 sequence_t ::= SEQ LANGLE type_with_top RANGLE
 sequence_definition ::= LBRACKET expression_list RBRACKET
 
-expression_list_prime ::= expression_list COMMA exxpresion
+expression_list_prime ::= expression_list COMMA expression
                  | expression
                  |
 
@@ -188,9 +232,6 @@ dict_list ::= dict_elem
             | dict_elem COMMA dict_list
 
 dict_elem ::= expression COLON expression
-
-expression_list ::= expression
-                | expression COMMA expression_list
 
 ftype ::= type
       | VOID
