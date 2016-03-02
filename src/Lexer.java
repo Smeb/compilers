@@ -834,8 +834,8 @@ class Lexer implements java_cup.runtime.Scanner {
         case 87: break;
         case 14: 
           System.out.println("line: "+(yyline+1)+" "+"col: "+(yycolumn+1)+" "+"match: --"+zzToPrintable(yytext())+"--");
-          System.out.println("action [101] { return symbol(sym.PERIOD); }");
-          { return symbol(sym.PERIOD);
+          System.out.println("action [101] { return symbol(sym.DOT); }");
+          { return symbol(sym.DOT);
           }
         case 88: break;
         case 15: 

@@ -1,0 +1,6 @@
+We would include foo()[i].IDENTIFIER as a valid sequence of lexemes,
+however apparently this isn't accepted by the reference compiler so we
+exclude this.
+
+We would include STRING_LITERAL[INDEX] however apparently the reference
+compiler also does not accept this.

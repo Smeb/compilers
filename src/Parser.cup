@@ -1,8 +1,6 @@
 import java_cup.runtime.*;
 import java.util.ArrayList;
 
-scan with {: return lexer.next_token(); :};
-
 parser code {:
 
   public Boolean syntaxErrors = false;
@@ -47,7 +45,7 @@ parser code {:
     lexer = lex;
   }
 
-:};
+:}
 
 // define the set of atomic terminal types
 terminal BOOLEAN_T, CHAR_T, DICT_, FLOAT_T, INT_T, RATIONAL_T, SEQ_T,
@@ -68,7 +66,7 @@ terminal DO, OD, IF, FI, FOR, FORALL, THEN, ELSE, WHILE, ELIF, RETURN;
 
 // language keywords
 terminal FDEF, TDEF, READ, PRINT, COLON, IN, SEMICOLON, APPEND, RANGLE,
-UNDERSCORE, PERIOD, COMMA, LEN, ASSIGNMENT, ALIAS, VOID;
+UNDERSCORE, DOT, COMMA, LEN, ASSIGNMENT, ALIAS, VOID;
 
 // Comparsion operators
 terminal LTEQ, NEQ, EQ, LANGLE;
@@ -86,11 +84,14 @@ non_primitive, literal, evaluable, l_r_operator, main, statements,
 declaration_list_prime, declaration_list, function_call,
 statement, mutator, slice_op, index_op, nullable, concat, type_id_pair,
 type, type_with_top, dict_t, sequence_t, sequence_definition,
-expression_list_prime, expression_list, dict_definition,
-dict_list_prime, dict_list, dict_elem, ftype, parameters;
+expression_list_prime, expression_list, expression_list_end, dict_definition,
+dict_list, dict_list_builder, dict_elem, ftype, parameters,
+valid_dot_prefix, opt_index_op, primitive, io_op, collection,
+dict_items, dict_item_builder;
 
-precedence left PLUS, MINUS;
-precedence left DIV, MULT;
+precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
+precedence right POW, IN, ASSIGNMENT;
+precedence nonassoc NOT, LBRACE, LTEQ, RANGLE, EQ, NEQ;
 
 start with program;
 
@@ -98,140 +99,151 @@ start with program;
 // there can only be one, like in Highlander
 program ::= declarations main declarations;
 
-declarations ::= declaration SEMICOL declarations
+declarations ::= declaration SEMICOLON declarations
               |
+              ;
 
 declaration  ::= var_declaration
               |  func_declaration
-              |  type_declaratiion
+              |  type_declaration
               |  alias_declaration
+              ;
+
 
 var_declaration ::= type_id_pair
                 | type expression
+                ;
 
-func_declaration ::= FDEF functype IDENTIFIER LPAREN parameters RPAREN
+func_declaration ::= FDEF ftype IDENTIFIER LPAREN parameters RPAREN
 LBRACE statements RBRACE;
-type_declaration ::= TDEF IDENTIFIER LBRACE declaration_list_prime RBRACE;
+type_declaration ::= TDEF IDENTIFIER LBRACE type_id_pair declaration_list_prime RBRACE;
 alias_declaration ::= ALIAS type IDENTIFIER;
 
-expression ::= literal
-            | evaluable
-            | function_call
-            | non_primitive DOT IDENTIFIER
-
 // intense debugging
-non_primitive ::= IDENTIFIER
-              | IDENTIFIER index_op
-              | sequence_definition index_op
-              | dict_definition index_op
-              | function_call
-              | function_call index_op
+// we would accept function index_op however
+valid_dot_prefix ::= IDENTIFIER opt_index_op
+                  | sequence_definition index_op
+                  | dict_definition index_op
+                  ;
 
-literal ::= STRING_LITERAL
-          | sequence_definition
-          | dict_definition
-          | CHAR
+opt_index_op ::= index_op
+              |
+              ;
+
+primitive ::= CHAR
           | F
           | FLOAT
           | INTEGER
           | RATIONAL
           | T
+          ;
 
+collection ::= STRING_LITERAL
+            | sequence_definition
+            | dict_definition
+            ;
+
+expression ::= primitive
+            ;
+
+/*
 evaluable ::= NOT expression
-          | expression l_r_operator expression
-          | LEN LPAREN expression RPAREN
+          | expression AND expression
+          | expression DIV expression
+          | expression EQ expression
           | expression IN expression
+          | expression LANGLE expression
+          | expression LTEQ expression
+          | expression MINUS expression
+          | expression MULT expression
+          | expression NEQ expression
+          | expression OR expression
+          | expression PLUS expression
+          | expression POW expression
+          | LEN LPAREN expression RPAREN
           | MINUS expression
           | LPAREN expression RPAREN
-
-l_r_operator ::= AND
-              | OR
-              | PLUS
-              | MINUS
-              | TIMES
-              | DIV
-              | POW
-              | LANGLE
-              | LTEQ
-              | EQ
-              | NEQ
-              | OR
+          | function_call
+          | literal
+          ;
+*/
 
 main ::= MAIN LBRACE statements RBRACE SEMICOLON;
+
 
 statements ::= statement SEMICOLON statements
             |
             ;
 
-parameters ::= type_id_pair
-            | declaration_list type_id_pair
+parameters ::= declaration_list
             |
             ;
 
-declarataion_list_prime ::= type_id_pair COMMA declaration_list
-              type_id_pair
-            | type_id_pair;
-
-declaration_list ::= type_id_pair COMMA declaration_list
-                  |
+declaration_list ::= declaration_list COMMA type IDENTIFIER
+                  | declaration_list COMMA IDENTIFIER
+                  | type IDENTIFIER
+                  | IDENTIFIER IDENTIFIER
                   ;
 
-function_call ::= IDENTIFIER LPAREN expression_list_prime  RPAREN
+function_call ::= IDENTIFIER LPAREN expression_list_prime  RPAREN;
 
-statement ::=
 
 // TODO: wtf is happening?!
 mutator ::= index_op mutator
         | slice_op mutator
         |
+        ;
 
-slice_op ::= LRACKET nullable COLON nullable RBRACKET
-index_op ::= LBRACKET expression mutator RBRACKET
+slice_op ::= LBRACKET nullable COLON nullable RBRACKET;
+index_op ::= LBRACKET expression mutator RBRACKET;
 
 nullable ::= expression mutator
           |
+          ;
 
-concat ::= expression CONCAT expression
-io_operation ::= READ IDENTIFIER
-              | PRINT IDENTIFIER
-              | PRINT expression
-              ;
+concat ::= expression COLON COLON expression;
+io_op ::= READ IDENTIFIER
+        | PRINT expression
+        ;
 
-type_id_pair ::= type IDENTIFIER
+type_id_pair ::= type IDENTIFIER;
 // types
-type ::= IDENTIFIER // Identifier since alias can map types to names
-      | BOOLEAN_T
+type ::= BOOLEAN_T
       | CHAR_T
       | dict_t
       | FLOAT_T
       | INT_T
       | RATIONAL_T
       | sequence_t
+      ;
 
 type_with_top ::= type
               | TOP_T
+              ;
 
-dict_t ::= DICT LANGLE type_with_top COMMA type_with_top RANGLE
-sequence_t ::= SEQ LANGLE type_with_top RANGLE
-sequence_definition ::= LBRACKET expression_list RBRACKET
+dict_t ::= DICT_T LANGLE type_with_top COMMA type_with_top RANGLE;
+sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
+sequence_definition ::= LBRACKET expression_list RBRACKET;
 
 expression_list_prime ::= expression_list COMMA expression
                  | expression
                  |
+                 ;
 
-expression_list ::= expression
-                | expression COMMA expression_list
+expression_list ::= expression COMMA expression_list
+                  |
+                 ;
 
-dict_definition ::= LBRACE dict_list_prime RBRACE
+dict_definition ::= LBRACE dict_items RBRACE;
 
-dict_list_prime ::= dict_list COMMA dict_elem
-                 | dict_elem
-                 |
+dict_items ::= dict_item_builder
+            |
+            ;
 
-dict_list ::= dict_elem
-            | dict_elem COMMA dict_list
-
-dict_elem ::= expression COLON expression
+dict_item_builder ::= expression COLON expression
+                  | dict_item_builder COMMA expression COLON expression
+                  ;
 
 ftype ::= type
       | VOID
+      ;

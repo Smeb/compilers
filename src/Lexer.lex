@@ -98,18 +98,18 @@ Integer = (0|[1-9]{Digit}*)
     "/"           { return symbol(sym.DIV);        }
     "^"           { return symbol(sym.POW);        }
     "_"           { return symbol(sym.UNDERSCORE); }
-    "."           { return symbol(sym.PERIOD);     } // Do we need a period symbol to concat names?
+    "."           { return symbol(sym.DOT);        }
     ":"           { return symbol(sym.COLON);      }
     "::"          { return symbol(sym.APPEND);     }
 
     /* Comparison Operators */
     "=="          { return symbol(sym.EQ);         }
     "!="          { return symbol(sym.NEQ);        }
-    "<"           { return symbol(sym.LANGLE);         }
+    "<"           { return symbol(sym.LANGLE);     }
     "<="          { return symbol(sym.LTEQ);       }
 
     /* Misc symbols */
-    ">"           { return symbol(sym.RANGLE);         }
+    ">"           { return symbol(sym.RANGLE);     }
     /* Sequence terminals */
     "("           { return symbol(sym.LPAREN);     }
     ")"           { return symbol(sym.RPAREN);     }
