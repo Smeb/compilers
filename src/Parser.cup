@@ -81,6 +81,7 @@ terminal BADCHAR;
 
 nonterminal  program, main;
 nonterminal function_body, function_def, functions, parameter_list;
+nonterminal vardeclaration, funcdeclaration, typedeclaration, alias;
 nonterminal statements, statement;
 nonterminal sequence, type;
 nonterminal full_exp, simple_exp, operator;
