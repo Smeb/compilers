@@ -21,7 +21,7 @@ parser code {:
 terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
-  terminal LBRACKET, RBRACKET;
+  terminal LBRACKET, RBRACKET, COMMA;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
@@ -34,7 +34,7 @@ terminal BADCHAR;
   nonterminal collection, item;
   nonterminal expression;
   /* collection implementors */
-  nonterminal sequence_decl, sequence_body; /* dict_decl, dict_body; */
+  nonterminal sequence_decl, sequence_start, sequence_body; /* dict_decl, dict_body; */
 
 expression ::= item
             | collection

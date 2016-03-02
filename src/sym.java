@@ -6,25 +6,33 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int INTEGER = 6;
-  public static final int BOOL = 3;
-  public static final int RATIONAL = 7;
-  public static final int STRING_LITERAL = 8;
+  public static final int INTEGER = 9;
+  public static final int BOOL = 6;
+  public static final int RATIONAL = 10;
+  public static final int STRING_LITERAL = 11;
   public static final int EOF = 0;
+  public static final int RBRACKET = 4;
+  public static final int SEQ_T = 12;
   public static final int error = 1;
+  public static final int COMMA = 5;
   public static final int BADCHAR = 2;
-  public static final int CHAR = 4;
-  public static final int FLOAT = 5;
+  public static final int LBRACKET = 3;
+  public static final int FLOAT = 8;
+  public static final int CHAR = 7;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "BADCHAR",
+  "LBRACKET",
+  "RBRACKET",
+  "COMMA",
   "BOOL",
   "CHAR",
   "FLOAT",
   "INTEGER",
   "RATIONAL",
-  "STRING_LITERAL"
+  "STRING_LITERAL",
+  "SEQ_T"
   };
 }
 

@@ -58,6 +58,7 @@ Integer = (0|[1-9]{Digit}*)
     "["           { return symbol(sym.LBRACKET);   }
     "]"           { return symbol(sym.RBRACKET);   }
 
+  ","           { return symbol(sym.COMMA);      }
 /*
 
     "<"           { return symbol(sym.LANGLE);     }
@@ -127,7 +128,6 @@ Integer = (0|[1-9]{Digit}*)
   "||"          { return symbol(sym.OR);         }
   "&&"          { return symbol(sym.AND);        }
   "!"           { return symbol(sym.NOT);        }
-  ","           { return symbol(sym.COMMA);      }
   ";"           { return symbol(sym.SEMICOLON);  }
 
   {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
