@@ -18,7 +18,6 @@ public class sym {
   public static final int INTEGER = 22;
   public static final int LPAREN = 11;
   public static final int BADCHAR = 2;
-  public static final int FOR = 60;
   public static final int MINUS = 39;
   public static final int RPAREN = 12;
   public static final int TOP_T = 26;
@@ -54,7 +53,7 @@ public class sym {
   public static final int ELSE = 58;
   public static final int LANGLE = 3;
   public static final int LBRACE = 8;
-  public static final int READ = 62;
+  public static final int READ = 61;
   public static final int WHILE = 56;
   public static final int FLOAT = 21;
   public static final int THEN = 59;
@@ -65,7 +64,7 @@ public class sym {
   public static final int ALIAS = 17;
   public static final int RATIONAL_T = 32;
   public static final int ELIF = 53;
-  public static final int PRINT = 61;
+  public static final int PRINT = 60;
   public static final int DO = 54;
   public static final int DICT_T = 29;
   public static final int IDENTIFIER = 50;
@@ -130,7 +129,6 @@ public class sym {
   "FORALL",
   "ELSE",
   "THEN",
-  "FOR",
   "PRINT",
   "READ"
   };

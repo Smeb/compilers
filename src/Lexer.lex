@@ -105,7 +105,6 @@ Integer = (0|[1-9]{Digit}*)
     "elif"        { return symbol(sym.ELIF);       }
     "fi"          { return symbol(sym.FI);         }
     "while"       { return symbol(sym.WHILE);      }
-    "for"         { return symbol(sym.FOR);        }
     "forall"      { return symbol(sym.FORALL);     }
     "do"          { return symbol(sym.DO);         }
     "od"          { return symbol(sym.OD);         }
