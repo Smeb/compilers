@@ -6,7 +6,6 @@ import java_cup.runtime.*;
 %cup
 %line
 %column
-%debug
 
 %{
   private boolean debug_mode;
@@ -32,7 +31,7 @@ import java_cup.runtime.*;
   Identifier = {Letter}{AcceptedChar}*
 Integer = (0|[1-9]{Digit}*)
   Rational = ({Integer}_)?{Integer}"/"{Integer}
-  Float = {Integer}.{Digit}+
+  Float = {Integer}\.{Digit}+
   Char = \'({Letter}|{Digit}|{Punctuation})\'
   StringCharacter = [^\r\n\"\\]
 %state STRING
@@ -98,9 +97,8 @@ Integer = (0|[1-9]{Digit}*)
     "main"        { return symbol(sym.MAIN);       }
     "fdef"        { return symbol(sym.FDEF);       }
     "tdef"        { return symbol(sym.TDEF);       }
+    "alias"       { return symbol(sym.ALIAS);      }
     ";"           { return symbol(sym.SEMICOLON);  }
-    {Identifier}  { return symbol(sym.IDENTIFIER); }
-/*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
     "else"        { return symbol(sym.ELSE);       }
@@ -116,22 +114,7 @@ Integer = (0|[1-9]{Digit}*)
     "print"       { return symbol(sym.PRINT);      }
     "read"        { return symbol(sym.READ);       }
     "return"      { return symbol(sym.RETURN);     }
-    /* declarative symbols in the language */
-
-
-    "alias"       { return symbol(sym.ALIAS);      }
-
-    /* TODO: implement rational correctly */
-
-
-
-
-
-    /* Misc symbols */
-    /* Sequence terminals */
-
-
-*/
+    {Identifier}  { return symbol(sym.IDENTIFIER); }
 }
 
 <STRING>{

@@ -6,55 +6,69 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int POW = 43;
-  public static final int STRING_LITERAL = 22;
+  public static final int FORALL = 57;
+  public static final int POW = 45;
+  public static final int STRING_LITERAL = 24;
   public static final int LBRACKET = 5;
-  public static final int MULT = 38;
-  public static final int CHAR = 18;
-  public static final int ASSIGNMENT = 42;
-  public static final int LTEQ = 36;
-  public static final int CHAR_T = 26;
-  public static final int INTEGER = 20;
+  public static final int MULT = 40;
+  public static final int CHAR = 20;
+  public static final int ASSIGNMENT = 44;
+  public static final int LTEQ = 38;
+  public static final int CHAR_T = 28;
+  public static final int INTEGER = 22;
   public static final int LPAREN = 11;
   public static final int BADCHAR = 2;
-  public static final int MINUS = 37;
+  public static final int FOR = 60;
+  public static final int MINUS = 39;
   public static final int RPAREN = 12;
-  public static final int TOP_T = 24;
-  public static final int NOT = 46;
+  public static final int TOP_T = 26;
+  public static final int NOT = 48;
   public static final int SEMICOLON = 14;
-  public static final int AND = 32;
-  public static final int APPEND = 45;
-  public static final int RATIONAL = 21;
-  public static final int SEQ_T = 23;
-  public static final int OR = 40;
-  public static final int IN = 35;
+  public static final int AND = 34;
+  public static final int APPEND = 47;
+  public static final int RATIONAL = 23;
+  public static final int SEQ_T = 25;
+  public static final int OR = 42;
+  public static final int IN = 37;
   public static final int TDEF = 16;
-  public static final int BOOL = 17;
+  public static final int BOOL = 19;
   public static final int COMMA = 7;
-  public static final int DIV = 33;
-  public static final int PLUS = 41;
-  public static final int INT_T = 29;
+  public static final int FI = 52;
+  public static final int DIV = 35;
+  public static final int PLUS = 43;
+  public static final int INT_T = 31;
+  public static final int IF = 51;
   public static final int MAIN = 13;
-  public static final int DOT = 44;
+  public static final int DOT = 46;
   public static final int EOF = 0;
+  public static final int OD = 55;
+  public static final int RETURN = 18;
   public static final int RBRACKET = 6;
   public static final int error = 1;
-  public static final int NEQ = 39;
-  public static final int BOOLEAN_T = 25;
+  public static final int NEQ = 41;
+  public static final int BOOLEAN_T = 27;
   public static final int FDEF = 15;
-  public static final int VOID = 31;
-  public static final int EQ = 34;
+  public static final int VOID = 33;
+  public static final int EQ = 36;
   public static final int COLON = 10;
+  public static final int ELSE = 58;
   public static final int LANGLE = 3;
   public static final int LBRACE = 8;
-  public static final int FLOAT = 19;
+  public static final int READ = 62;
+  public static final int WHILE = 56;
+  public static final int FLOAT = 21;
+  public static final int THEN = 59;
   public static final int RANGLE = 4;
   public static final int RBRACE = 9;
-  public static final int FLOAT_T = 28;
-  public static final int LEN = 47;
-  public static final int RATIONAL_T = 30;
-  public static final int DICT_T = 27;
-  public static final int IDENTIFIER = 48;
+  public static final int FLOAT_T = 30;
+  public static final int LEN = 49;
+  public static final int ALIAS = 17;
+  public static final int RATIONAL_T = 32;
+  public static final int ELIF = 53;
+  public static final int PRINT = 61;
+  public static final int DO = 54;
+  public static final int DICT_T = 29;
+  public static final int IDENTIFIER = 50;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -73,6 +87,8 @@ public class sym {
   "SEMICOLON",
   "FDEF",
   "TDEF",
+  "ALIAS",
+  "RETURN",
   "BOOL",
   "CHAR",
   "FLOAT",
@@ -104,7 +120,19 @@ public class sym {
   "APPEND",
   "NOT",
   "LEN",
-  "IDENTIFIER"
+  "IDENTIFIER",
+  "IF",
+  "FI",
+  "ELIF",
+  "DO",
+  "OD",
+  "WHILE",
+  "FORALL",
+  "ELSE",
+  "THEN",
+  "FOR",
+  "PRINT",
+  "READ"
   };
 }
 

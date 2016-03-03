@@ -22,7 +22,7 @@ terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
   terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA, LBRACE, RBRACE,
-  COLON, LPAREN, RPAREN, MAIN, SEMICOLON, FDEF, TDEF;
+  COLON, LPAREN, RPAREN, MAIN, SEMICOLON, FDEF, TDEF, ALIAS, RETURN;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
@@ -33,29 +33,42 @@ terminal BADCHAR;
 /* operators */
   terminal AND, DIV, EQ, IN, LTEQ, MINUS, MULT, NEQ, OR
 , PLUS, ASSIGNMENT, POW, DOT, APPEND, NOT, LEN, IDENTIFIER;
+  terminal IF, FI, ELIF, DO, OD, WHILE, FORALL, ELSE, THEN, FOR, PRINT,
+  READ;
 /** parsing constructs **/
   /* structural constructs */
   nonterminal program;
   /* declarations */
   nonterminal declarations, declaration, main, statements, statement,
-  id_assignment;
-  nonterminal variable_declaration, function_declaration;
+  assignment, multiple_assignments;
+  nonterminal variable_declaration, function_declaration,
+  type_declaration, alias_declaration;
   /* low level constructs */
-  nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
+  nonterminal collection, item, type, type_with_top, dict_t, sequence_t,
+  ftype;
   nonterminal expression, l_r_op, evaluable, function_call;
   /* list nonterminals */
   nonterminal sequence_start, sequence_contents, sequence_body,
   dict_start, dict_contents, dict_body, dict_value,
   type_id_contents, type_id_body, type_id;
+  /* conditional flow nonterminals */
+  nonterminal while, for;
+  /* io_ops */
+  nonterminal io_op, named_ent, dot_access, collection_access,
+  possible_collection;
 
 precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
 program ::= declarations main declarations;
-main ::= MAIN LBRACE statements RBRACE SEMICOLON;
+main ::= MAIN LBRACE statement SEMICOLON statements RBRACE SEMICOLON;
 statements ::= statement SEMICOLON statements
             |
+            ;
+
+statement ::= variable_declaration
+            | io_op
             ;
 
 declarations ::= declaration SEMICOLON declarations
@@ -65,17 +78,26 @@ declarations ::= declaration SEMICOLON declarations
 
 declaration ::= variable_declaration
               | function_declaration
+              | type_declaration
+              | alias_declaration
               ;
 
 variable_declaration ::= type IDENTIFIER
-                  | type id_assignment
+                  | type IDENTIFIER assignment
                   ;
 
-function_declaration ::= FDEF type IDENTIFIER LPAREN type_id_contents RPAREN;
+assignment ::= ASSIGNMENT expression multiple_assignments;
 
-id_assignment ::= IDENTIFIER ASSIGNMENT expression;
+multiple_assignments ::= COMMA expression multiple_assignments
+                      |
+                      ;
 
-statement ::= expression;
+function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
+RPAREN LBRACE statement SEMICOLON statements RBRACE;
+
+type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
+alias_declaration ::= ALIAS type type;
+
 
 expression ::= item
             | collection
@@ -83,7 +105,8 @@ expression ::= item
             ;
 
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
-type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
+type ::= IDENTIFIER | BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
+ftype ::= VOID | type;
 type_with_top ::= TOP_T | type;
 evaluable ::= expression l_r_op expression
             | NOT expression
@@ -92,6 +115,8 @@ evaluable ::= expression l_r_op expression
             | LPAREN expression RPAREN
             | function_call
             ;
+l_r_op ::= AND | DIV | EQ | IN | LANGLE | LTEQ | MINUS | MULT | NEQ | OR
+| PLUS | POW | APPEND;
 
 function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;
 
@@ -116,6 +141,8 @@ dict_contents ::= dict_body
               |
               ;
 
+dot_access ::= expression DOT IDENTIFIER;
+
 dict_body ::= dict_value
           | dict_body COMMA dict_value
           ;
@@ -131,5 +158,25 @@ type_id_body ::= type_id_body COMMA type_id
 
 type_id ::= type IDENTIFIER;
 
-l_r_op ::= AND | DIV | EQ | IN | LANGLE | LTEQ | MINUS | MULT | NEQ | OR
-| PLUS | POW;
+while ::= WHILE LPAREN expression RPAREN DO statements OD;
+for ::= FORALL LPAREN IDENTIFIER IN IDENTIFIER RPAREN DO statements DO
+    | FORALL LPAREN IDENTIFIER IN collection RPAREN statements DO
+    ;
+
+// We can have identifier, accessed element, or indexed element as io
+// value
+named_ent ::= IDENTIFIER
+          | dot_access
+          | collection_access
+          ;
+
+possible_collection ::= IDENTIFIER
+                    | collection
+                    | dot_access
+                    ;
+
+collection_access ::= possible_collection LBRACKET expression RBRACKET;
+
+io_op ::= PRINT
+      | READ named_ent
+      ;

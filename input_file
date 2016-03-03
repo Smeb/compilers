@@ -1,3 +1,13 @@
-main {
-1.1
+bool thisIsMyBool = T, 1, 2, 3;
+bool thisIsABool;
+bool thisIsABool = 1;
+dict <top, dict<top, seq<top>>> d = {1:1, 2:2, 3:2, 4:1, 3:{1:1, 2:2}, 5:[1,2,3,4]};
+fdef void myFunction(bool truth, int false){
 };
+tdef myType {string name, string surname, int age};
+main {
+bool name = value;
+};
+bool value;
+int num = 3;
+float val = 2.1030210312;
