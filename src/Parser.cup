@@ -22,7 +22,7 @@ terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
   terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA, LBRACE, RBRACE,
-  COLON;
+  COLON, LPAREN, RPAREN;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
@@ -30,19 +30,18 @@ terminal BADCHAR;
   /* language types */
   terminal SEQ_T, TOP_T, BOOLEAN_T, CHAR_T, DICT_T, FLOAT_T, INT_T,
   RATIONAL_T, VOID;
-  /* operators */
+/* operators */
   terminal AND, DIV, EQ, IN, LTEQ, MINUS, MULT, NEQ, OR
-, PLUS, ASSIGNMENT, POW, DOT, APPEND;
+, PLUS, ASSIGNMENT, POW, DOT, APPEND, NOT, LEN, IDENTIFIER;
 /** parsing constructs **/
   /* structural constructs */
   nonterminal program;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
-  nonterminal expression;
-  /* collection implementors */
-nonterminal sequence_start, sequence_contents,
-sequence_body, dict_start, dict_contents, dict_body,
-dict_value;
+  nonterminal expression, l_r_op, evaluable, function_call;
+  /* list nonterminals */
+  nonterminal sequence_start, sequence_contents, sequence_body,
+  dict_start, dict_contents, dict_body, dict_value;
 
 program ::= sequence_t
           | sequence_start
@@ -52,12 +51,20 @@ program ::= sequence_t
 
 expression ::= item
             | collection
+            | evaluable
             ;
 
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
 type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
 type_with_top ::= TOP_T | type;
+evaluable ::= NOT expression
+            | LEN LPAREN expression RPAREN
+            | MINUS expression
+            | LPAREN expression RPAREN
+            | function_call
+            ;
 
+function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;
 
 collection ::= STRING_LITERAL;
 

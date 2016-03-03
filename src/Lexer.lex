@@ -88,6 +88,13 @@ Integer = (0|[1-9]{Digit}*)
     "=="          { return symbol(sym.EQ);         }
     "!="          { return symbol(sym.NEQ);        }
     "<="          { return symbol(sym.LTEQ);       }
+    "||"          { return symbol(sym.OR);         }
+    "&&"          { return symbol(sym.AND);        }
+    "!"           { return symbol(sym.NOT);        }
+    "("           { return symbol(sym.LPAREN);     }
+    ")"           { return symbol(sym.RPAREN);     }
+    "len"         { return symbol(sym.LEN);        }
+    {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 /*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
@@ -100,7 +107,6 @@ Integer = (0|[1-9]{Digit}*)
     "do"          { return symbol(sym.DO);         }
     "od"          { return symbol(sym.OD);         }
     "in"          { return symbol(sym.IN);         }
-    "len"         { return symbol(sym.LEN);        }
     "main"        { return symbol(sym.MAIN);       }
 
     "print"       { return symbol(sym.PRINT);      }
@@ -121,15 +127,9 @@ Integer = (0|[1-9]{Digit}*)
 
     /* Misc symbols */
     /* Sequence terminals */
-    "("           { return symbol(sym.LPAREN);     }
-    ")"           { return symbol(sym.RPAREN);     }
 
-  "||"          { return symbol(sym.OR);         }
-  "&&"          { return symbol(sym.AND);        }
-  "!"           { return symbol(sym.NOT);        }
   ";"           { return symbol(sym.SEMICOLON);  }
 
-  {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
 */
 }
 
