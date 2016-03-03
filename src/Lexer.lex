@@ -96,6 +96,8 @@ Integer = (0|[1-9]{Digit}*)
     "len"         { return symbol(sym.LEN);        }
 
     "main"        { return symbol(sym.MAIN);       }
+    "fdef"        { return symbol(sym.FDEF);       }
+    "tdef"        { return symbol(sym.TDEF);       }
     ";"           { return symbol(sym.SEMICOLON);  }
     {Identifier}  { return symbol(sym.IDENTIFIER); }
 /*
@@ -115,8 +117,6 @@ Integer = (0|[1-9]{Digit}*)
     "read"        { return symbol(sym.READ);       }
     "return"      { return symbol(sym.RETURN);     }
     /* declarative symbols in the language */
-    "fdef"        { return symbol(sym.FDEF);       }
-    "tdef"        { return symbol(sym.TDEF);       }
 
 
     "alias"       { return symbol(sym.ALIAS);      }

@@ -22,7 +22,7 @@ terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
   terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA, LBRACE, RBRACE,
-  COLON, LPAREN, RPAREN, MAIN, SEMICOLON;
+  COLON, LPAREN, RPAREN, MAIN, SEMICOLON, FDEF, TDEF;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
@@ -39,13 +39,14 @@ terminal BADCHAR;
   /* declarations */
   nonterminal declarations, declaration, main, statements, statement,
   id_assignment;
-  nonterminal var_declaration, function_declaration;
+  nonterminal variable_declaration, function_declaration;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
   nonterminal expression, l_r_op, evaluable, function_call;
   /* list nonterminals */
   nonterminal sequence_start, sequence_contents, sequence_body,
-  dict_start, dict_contents, dict_body, dict_value;
+  dict_start, dict_contents, dict_body, dict_value,
+  type_id_contents, type_id_body, type_id;
 
 precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
@@ -62,13 +63,15 @@ declarations ::= declaration SEMICOLON declarations
               ;
 
 
-declaration ::= var_declaration
-              |
+declaration ::= variable_declaration
+              | function_declaration
               ;
 
-var_declaration ::= type IDENTIFIER
+variable_declaration ::= type IDENTIFIER
                   | type id_assignment
                   ;
+
+function_declaration ::= FDEF type IDENTIFIER LPAREN type_id_contents RPAREN;
 
 id_assignment ::= IDENTIFIER ASSIGNMENT expression;
 
@@ -112,10 +115,21 @@ dict_start ::= LBRACE dict_contents RBRACE;
 dict_contents ::= dict_body
               |
               ;
+
 dict_body ::= dict_value
           | dict_body COMMA dict_value
           ;
 dict_value ::= expression COLON expression;
+
+type_id_contents ::= type_id_body
+                  |
+                  ;
+
+type_id_body ::= type_id_body COMMA type_id
+              | type_id
+              ;
+
+type_id ::= type IDENTIFIER;
 
 l_r_op ::= AND | DIV | EQ | IN | LANGLE | LTEQ | MINUS | MULT | NEQ | OR
 | PLUS | POW;
