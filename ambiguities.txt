@@ -1,6 +1,6 @@
-We would include foo()[i].IDENTIFIER as a valid sequence of lexemes,
-however apparently this isn't accepted by the reference compiler so we
-exclude this.
+1. possible_collections is defined as:
+--------------------------------------
+a collection
+a named_ent (can be an identifier, a dot_access or a collection_access)
+a function_call (the function could return a collection)
 
-We would include STRING_LITERAL[INDEX] however apparently the reference
-compiler also does not accept this.

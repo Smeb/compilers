@@ -40,8 +40,8 @@ terminal BADCHAR;
   nonterminal program;
   /* declarations */
   nonterminal declarations, declaration, main, statements, statement,
-  assignment, multiple_assignments, 
-  variable_declarations, opt_assignment;
+  assignment, multiple_assignments,
+  variable_declarations;
   nonterminal variable_declaration, function_declaration,
   type_declaration, alias_declaration;
   /* low level constructs */
@@ -56,7 +56,7 @@ terminal BADCHAR;
   nonterminal while, for;
   /* io_ops */
   nonterminal io_op, named_ent, dot_access, collection_access,
-  possible_collection, return, if;
+  possible_collections, return, if_start, if_end, elif, else;
 
   //working set
   nonterminal initialised;
@@ -73,10 +73,10 @@ statements ::= statement SEMICOLON statements
             ;
 
 statement ::= io_op
-            | if
+            | if_start
             | while
+            | for
             | return
-            | FORALL LPAREN IDENTIFIER IN for
             | expression
             | named_ent assignment
             ;
@@ -177,9 +177,19 @@ type_id_body ::= type_id_body COMMA type_id
 type_id ::= type IDENTIFIER;
 
 while ::= WHILE LPAREN expression RPAREN DO statements OD;
-for ::= IDENTIFIER RPAREN DO statements DO
-    | collection RPAREN statements DO
+for ::= FORALL LPAREN IDENTIFIER IN possible_collections RPAREN DO statements DO
     ;
+if_start ::= IF LPAREN expression RPAREN THEN statements if_end;
+if_end ::= elif else FI;
+
+elif ::= elif ELIF statements
+      |
+      ;
+
+else ::= ELSE statements
+      |
+      ;
+
 
 // We can have identifier, accessed element, or indexed element as io
 // value
@@ -188,12 +198,12 @@ named_ent ::= IDENTIFIER
           | collection_access
           ;
 
-possible_collection ::= IDENTIFIER
-                    | collection
-                    | dot_access
-                    ;
+possible_collections ::= named_ent
+                     | collection
+                     | function_call
+                     ;
 
-collection_access ::= possible_collection LBRACKET expression RBRACKET;
+collection_access ::= possible_collections LBRACKET expression RBRACKET;
 
 return ::= RETURN expression
         | RETURN
