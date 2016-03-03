@@ -6,25 +6,46 @@
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int RBRACE = 9;
-  public static final int BADCHAR = 2;
-  public static final int CHAR = 12;
-  public static final int RANGLE = 4;
-  public static final int LBRACKET = 5;
-  public static final int COLON = 10;
-  public static final int LBRACE = 8;
-  public static final int RBRACKET = 6;
+  public static final int POW = 37;
   public static final int STRING_LITERAL = 16;
-  public static final int COMMA = 7;
-  public static final int FLOAT = 13;
-  public static final int LANGLE = 3;
-  public static final int EOF = 0;
-  public static final int DICT_T = 18;
-  public static final int error = 1;
-  public static final int BOOL = 11;
+  public static final int LBRACKET = 5;
+  public static final int MULT = 32;
+  public static final int CHAR = 12;
+  public static final int ASSIGNMENT = 36;
+  public static final int LTEQ = 30;
+  public static final int CHAR_T = 20;
   public static final int INTEGER = 14;
-  public static final int SEQ_T = 17;
+  public static final int BADCHAR = 2;
+  public static final int MINUS = 31;
+  public static final int TOP_T = 18;
+  public static final int AND = 26;
+  public static final int APPEND = 39;
   public static final int RATIONAL = 15;
+  public static final int SEQ_T = 17;
+  public static final int IN = 29;
+  public static final int OR = 34;
+  public static final int BOOL = 11;
+  public static final int COMMA = 7;
+  public static final int DIV = 27;
+  public static final int PLUS = 35;
+  public static final int INT_T = 23;
+  public static final int DOT = 38;
+  public static final int EOF = 0;
+  public static final int RBRACKET = 6;
+  public static final int error = 1;
+  public static final int NEQ = 33;
+  public static final int BOOLEAN_T = 19;
+  public static final int VOID = 25;
+  public static final int EQ = 28;
+  public static final int COLON = 10;
+  public static final int LANGLE = 3;
+  public static final int LBRACE = 8;
+  public static final int FLOAT = 13;
+  public static final int RANGLE = 4;
+  public static final int RBRACE = 9;
+  public static final int FLOAT_T = 22;
+  public static final int RATIONAL_T = 24;
+  public static final int DICT_T = 21;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -44,7 +65,28 @@ public class sym {
   "RATIONAL",
   "STRING_LITERAL",
   "SEQ_T",
-  "DICT_T"
+  "TOP_T",
+  "BOOLEAN_T",
+  "CHAR_T",
+  "DICT_T",
+  "FLOAT_T",
+  "INT_T",
+  "RATIONAL_T",
+  "VOID",
+  "AND",
+  "DIV",
+  "EQ",
+  "IN",
+  "LTEQ",
+  "MINUS",
+  "MULT",
+  "NEQ",
+  "OR",
+  "PLUS",
+  "ASSIGNMENT",
+  "POW",
+  "DOT",
+  "APPEND"
   };
 }
 

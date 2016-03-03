@@ -28,22 +28,25 @@ terminal BADCHAR;
   /* collections */
   terminal STRING_LITERAL;
   /* language types */
-  terminal SEQ_T, DICT_T;
-
+  terminal SEQ_T, TOP_T, BOOLEAN_T, CHAR_T, DICT_T, FLOAT_T, INT_T,
+  RATIONAL_T, VOID;
+  /* operators */
+  terminal AND, DIV, EQ, IN, LTEQ, MINUS, MULT, NEQ, OR
+, PLUS, ASSIGNMENT, POW, DOT, APPEND;
 /** parsing constructs **/
   /* structural constructs */
   nonterminal program;
   /* low level constructs */
-  nonterminal collection, item, type;
+  nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
   nonterminal expression;
   /* collection implementors */
-nonterminal sequence_decl, sequence_start, sequence_contents,
-sequence_body, dict_decl, dict_start, dict_contents, dict_body,
+nonterminal sequence_start, sequence_contents,
+sequence_body, dict_start, dict_contents, dict_body,
 dict_value;
 
-program ::= sequence_decl
+program ::= sequence_t
           | sequence_start
-          | dict_decl
+          | dict_t
           | dict_start
           ;
 
@@ -52,11 +55,13 @@ expression ::= item
             ;
 
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
-type ::= SEQ_T;
+type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
+type_with_top ::= TOP_T | type;
+
 
 collection ::= STRING_LITERAL;
-sequence_decl ::= SEQ_T LANGLE type RANGLE;
 
+sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
 sequence_start ::= LBRACKET sequence_contents RBRACKET;
 sequence_contents ::= sequence_body
                 |
@@ -66,7 +71,7 @@ sequence_body ::= expression
                 | sequence_body COMMA expression
                 ;
 
-dict_decl ::= DICT_T LANGLE type COMMA type RANGLE;
+dict_t ::= DICT_T LANGLE type_with_top COMMA type_with_top RANGLE;
 dict_start ::= LBRACE dict_contents RBRACE;
 dict_contents ::= dict_body
               |
@@ -75,3 +80,6 @@ dict_body ::= dict_value
           | dict_body COMMA dict_value
           ;
 dict_value ::= expression COLON expression;
+
+l_r_op ::= AND | DIV | EQ | IN | LANGLE | LTEQ | MINUS | MULT | NEQ | OR
+| PLUS | POW;

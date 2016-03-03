@@ -63,6 +63,31 @@ Integer = (0|[1-9]{Digit}*)
     "}"           { return symbol(sym.RBRACE);     }
     ","           { return symbol(sym.COMMA);      }
     ":"           { return symbol(sym.COLON);      }
+
+    /* types in the language */
+    "top"         { return symbol(sym.TOP_T);      }
+    "bool"        { return symbol(sym.BOOLEAN_T);  }
+    "char"        { return symbol(sym.CHAR_T);     }
+    "dict"        { return symbol(sym.DICT_T);     }
+    "float"       { return symbol(sym.FLOAT_T);    }
+    "int"         { return symbol(sym.INT_T);      }
+    "rat"         { return symbol(sym.RATIONAL_T); }
+    "void"        { return symbol(sym.VOID);     }
+
+    /* Mathematical Operators */
+    "="           { return symbol(sym.ASSIGNMENT); }
+    "+"           { return symbol(sym.PLUS);       }
+    "-"           { return symbol(sym.MINUS);      }
+    "*"           { return symbol(sym.MULT);       }
+    "/"           { return symbol(sym.DIV);        }
+    "^"           { return symbol(sym.POW);        }
+    "."           { return symbol(sym.DOT);        }
+    "::"          { return symbol(sym.APPEND);     }
+
+    /* Comparison Operators */
+    "=="          { return symbol(sym.EQ);         }
+    "!="          { return symbol(sym.NEQ);        }
+    "<="          { return symbol(sym.LTEQ);       }
 /*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
@@ -90,33 +115,9 @@ Integer = (0|[1-9]{Digit}*)
 
     /* TODO: implement rational correctly */
 
-    /* types in the language */
-    "top"         { return symbol(sym.TOP_T);      }
-    "bool"        { return symbol(sym.BOOLEAN_T);  }
-    "char"        { return symbol(sym.CHAR_T);     }
-    "dict"        { return symbol(sym.DICT_T);     }
-    "float"       { return symbol(sym.FLOAT_T);    }
-    "int"         { return symbol(sym.INT_T);      }
-    "rat"         { return symbol(sym.RATIONAL_T); }
-    "void"        { return symbol(sym.VOID);     }
 
 
 
-    /* Mathematical Operators */
-    "="           { return symbol(sym.ASSIGNMENT); }
-    "+"           { return symbol(sym.PLUS);       }
-    "-"           { return symbol(sym.MINUS);      }
-    "*"           { return symbol(sym.MULT);       }
-    "/"           { return symbol(sym.DIV);        }
-    "^"           { return symbol(sym.POW);        }
-    "_"           { return symbol(sym.UNDERSCORE); }
-    "."           { return symbol(sym.DOT);        }
-    "::"          { return symbol(sym.APPEND);     }
-
-    /* Comparison Operators */
-    "=="          { return symbol(sym.EQ);         }
-    "!="          { return symbol(sym.NEQ);        }
-    "<="          { return symbol(sym.LTEQ);       }
 
     /* Misc symbols */
     /* Sequence terminals */
