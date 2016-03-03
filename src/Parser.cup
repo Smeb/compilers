@@ -39,8 +39,8 @@ terminal BADCHAR;
   /* structural constructs */
   nonterminal program;
   /* declarations */
-  nonterminal declarations, declaration, main, statements, statement,
-  assignment, multiple_assignments;
+  nonterminal declarations, declaration, main, body_content, statement,
+  assignment, multiple_assignments, in_func_declaration;
   nonterminal variable_declaration, function_declaration,
   type_declaration, alias_declaration;
   /* low level constructs */
@@ -55,31 +55,42 @@ terminal BADCHAR;
   nonterminal while, for;
   /* io_ops */
   nonterminal io_op, named_ent, dot_access, collection_access,
-  possible_collection;
+  possible_collection, return, if;
 
 precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
 program ::= declarations main declarations;
-main ::= MAIN LBRACE statement SEMICOLON statements RBRACE SEMICOLON;
-statements ::= statement SEMICOLON statements
+main ::= MAIN LBRACE body_content statement SEMICOLON body_content RBRACE SEMICOLON;
+
+body_content ::= statement SEMICOLON body_content
+            | in_func_declaration SEMICOLON body_content
             |
             ;
 
-statement ::= variable_declaration
-            | io_op
+statement ::= io_op
+            | if
+            | while
+            | for
+            | return
+            | for
+            | expression
+            | named_ent assignment
             ;
 
 declarations ::= declaration SEMICOLON declarations
               |
               ;
 
+in_func_declaration ::= variable_declaration
+                    | type_declaration
+                    | alias_declaration
+                    ;
 
-declaration ::= variable_declaration
+
+declaration ::= in_func_declaration
               | function_declaration
-              | type_declaration
-              | alias_declaration
               ;
 
 variable_declaration ::= type IDENTIFIER
@@ -93,7 +104,7 @@ multiple_assignments ::= COMMA expression multiple_assignments
                       ;
 
 function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
-RPAREN LBRACE statement SEMICOLON statements RBRACE;
+RPAREN LBRACE statement SEMICOLON body_content RBRACE;
 
 type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
 alias_declaration ::= ALIAS type type;
@@ -158,9 +169,9 @@ type_id_body ::= type_id_body COMMA type_id
 
 type_id ::= type IDENTIFIER;
 
-while ::= WHILE LPAREN expression RPAREN DO statements OD;
-for ::= FORALL LPAREN IDENTIFIER IN IDENTIFIER RPAREN DO statements DO
-    | FORALL LPAREN IDENTIFIER IN collection RPAREN statements DO
+while ::= WHILE LPAREN expression RPAREN DO body_content OD;
+for ::= FORALL LPAREN IDENTIFIER IN IDENTIFIER RPAREN DO body_content DO
+    | FORALL LPAREN IDENTIFIER IN collection RPAREN body_content DO
     ;
 
 // We can have identifier, accessed element, or indexed element as io
@@ -176,6 +187,10 @@ possible_collection ::= IDENTIFIER
                     ;
 
 collection_access ::= possible_collection LBRACKET expression RBRACKET;
+
+return ::= RETURN expression
+        | RETURN
+        ;
 
 io_op ::= PRINT
       | READ named_ent
