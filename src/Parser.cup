@@ -43,11 +43,16 @@ terminal BADCHAR;
   nonterminal sequence_start, sequence_contents, sequence_body,
   dict_start, dict_contents, dict_body, dict_value;
 
+precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
+precedence right POW, IN, ASSIGNMENT;
+precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
+
 program ::= sequence_t
           | sequence_start
           | dict_t
           | dict_start
           ;
+
 
 expression ::= item
             | collection
@@ -57,7 +62,8 @@ expression ::= item
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
 type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
 type_with_top ::= TOP_T | type;
-evaluable ::= NOT expression
+evaluable ::= expression l_r_op expression
+            | NOT expression
             | LEN LPAREN expression RPAREN
             | MINUS expression
             | LPAREN expression RPAREN
