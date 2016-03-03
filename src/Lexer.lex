@@ -94,7 +94,10 @@ Integer = (0|[1-9]{Digit}*)
     "("           { return symbol(sym.LPAREN);     }
     ")"           { return symbol(sym.RPAREN);     }
     "len"         { return symbol(sym.LEN);        }
-    {Identifier}  { return symbol(sym.IDENTIFIER, yytext());   }
+
+    "main"        { return symbol(sym.MAIN);       }
+    ";"           { return symbol(sym.SEMICOLON);  }
+    {Identifier}  { return symbol(sym.IDENTIFIER); }
 /*
     "if"          { return symbol(sym.IF);         }
     "then"        { return symbol(sym.THEN);       }
@@ -107,7 +110,6 @@ Integer = (0|[1-9]{Digit}*)
     "do"          { return symbol(sym.DO);         }
     "od"          { return symbol(sym.OD);         }
     "in"          { return symbol(sym.IN);         }
-    "main"        { return symbol(sym.MAIN);       }
 
     "print"       { return symbol(sym.PRINT);      }
     "read"        { return symbol(sym.READ);       }
@@ -128,7 +130,6 @@ Integer = (0|[1-9]{Digit}*)
     /* Misc symbols */
     /* Sequence terminals */
 
-  ";"           { return symbol(sym.SEMICOLON);  }
 
 */
 }

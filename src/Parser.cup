@@ -22,7 +22,7 @@ terminal BADCHAR;
 /** primitives **/
   /* syntactic smybols */
   terminal LANGLE, RANGLE, LBRACKET, RBRACKET, COMMA, LBRACE, RBRACE,
-  COLON, LPAREN, RPAREN;
+  COLON, LPAREN, RPAREN, MAIN, SEMICOLON;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
   /* collections */
@@ -36,6 +36,9 @@ terminal BADCHAR;
 /** parsing constructs **/
   /* structural constructs */
   nonterminal program;
+  /* declarations */
+  nonterminal declarations, main, statements, statement;
+  nonterminal var_declaration, function_declaration;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
   nonterminal expression, l_r_op, evaluable, function_call;
@@ -47,12 +50,13 @@ precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
-program ::= sequence_t
-          | sequence_start
-          | dict_t
-          | dict_start
-          ;
+program ::= main;
+main ::= MAIN LBRACE statements RBRACE SEMICOLON;
+statements ::= statement statements
+            |
+            ;
 
+statement ::= expression;
 
 expression ::= item
             | collection
