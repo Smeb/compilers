@@ -37,7 +37,8 @@ terminal BADCHAR;
   /* structural constructs */
   nonterminal program;
   /* declarations */
-  nonterminal declarations, main, statements, statement;
+  nonterminal declarations, declaration, main, statements, statement,
+  id_assignment;
   nonterminal var_declaration, function_declaration;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top, dict_t, sequence_t;
@@ -50,11 +51,26 @@ precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
-program ::= main;
+program ::= declarations main declarations;
 main ::= MAIN LBRACE statements RBRACE SEMICOLON;
-statements ::= statement statements
+statements ::= statement SEMICOLON statements
             |
             ;
+
+declarations ::= declaration SEMICOLON declarations
+              |
+              ;
+
+
+declaration ::= var_declaration
+              |
+              ;
+
+var_declaration ::= type IDENTIFIER
+                  | type id_assignment
+                  ;
+
+id_assignment ::= IDENTIFIER ASSIGNMENT expression;
 
 statement ::= expression;
 
