@@ -92,7 +92,10 @@ evaluable ::= expression l_r_op expression
 
 function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;
 
-collection ::= STRING_LITERAL;
+collection ::= STRING_LITERAL
+            | dict_start
+            | sequence_start
+            ;
 
 sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
 sequence_start ::= LBRACKET sequence_contents RBRACKET;
