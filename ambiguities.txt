@@ -1,6 +1,7 @@
 We do not allow aliases, function definitions, or type definitions
 inside functions. This is because functions are defined as allowing
-variable declarations and statements only in the specification, and since the specification quantifies that there could be zero or more
+variable declarations and statements only in the specification, and
+since the specification quantifies that there could be zero or more
 variable declarations, but does not do this for statements.
 
 As in the specification we strictly only allow variable declarations
@@ -28,10 +29,12 @@ same functionality therefore "string"[0].field is valid for the parser,
 and would be caught by later checks.
 
 In terms of the left side of assignments, we allow identifiers, and
-accesses from lists and dictionaries - notably we don't allow setting return values of
-functions, since memory addressing was not covered in the specification.
-We do allow function calls on the right side of assignments or on their
+accesses from lists and dictionaries - notably we don't allow setting return
+values of functions, since memory addressing was not covered in the
+specification.  We do allow function calls on the right side of assignments or on their
 own (as expressions), and we allow indexing and field access of function
 calls, since functions could reasonably return a structure or list.
-Therefore a statement such as foo = bar()[3].field; is fine, while 
-bar() = foo; is not
+Therefore a statement such as foo = bar()[3].field; is fine, while
+bar() = foo; is not. A quirk of this is that a statement like [3][3] =
+3; will parse successfully, since the first [3] will be interpreted as a
+list, which could potentially be a list of identifiers.
