@@ -216,7 +216,7 @@ statements OD
 | FORALL LPAREN IDENTIFIER IN IDENTIFIER RPAREN DO
 statements OD;
 if::= IF LPAREN expression RPAREN THEN statements elif else FI;
-elif ::= elif ELIF statements
+elif ::= elif ELIF LPAREN expression RPAREN THEN statements
       |
       ;
 else ::= ELSE statements
