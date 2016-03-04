@@ -65,6 +65,8 @@ precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
+start with program;
+
 program ::= declarations main declarations;
 main ::= MAIN LBRACE variable_declarations statement SEMICOLON statements RBRACE SEMICOLON;
 
@@ -85,6 +87,12 @@ declarations ::= declaration SEMICOLON declarations
               |
               ;
 
+declaration ::= function_declaration
+              | variable_declaration
+              | alias_declaration
+              | type_declaration
+              ;
+
 function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
 RPAREN LBRACE variable_declarations statement SEMICOLON statements RBRACE;
 
@@ -99,15 +107,6 @@ initialised::= assignment
 
 assignment ::= ASSIGNMENT expression multiple_assignments;
 
-declaration ::= function_declaration
-              | variable_declaration
-              | alias_declaration
-              | type_declaration
-              ;
-
-
-
-
 multiple_assignments ::= COMMA expression multiple_assignments
                       |
                       ;
@@ -117,6 +116,7 @@ type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
 alias_declaration ::= ALIAS type type;
 
 
+// need to factor in identifier to expression
 expression ::= item
             | collection
             | evaluable

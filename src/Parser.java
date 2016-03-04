@@ -28,14 +28,14 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\156\000\002\002\005\000\002\002\004\000\002\005" +
+    "\000\156\000\002\002\004\000\002\002\005\000\002\005" +
     "\012\000\002\006\005\000\002\006\002\000\002\007\003" +
     "\000\002\007\003\000\002\007\003\000\002\007\003\000" +
     "\002\007\003\000\002\007\003\000\002\007\004\000\002" +
-    "\003\005\000\002\003\002\000\002\014\016\000\002\012" +
-    "\005\000\002\012\002\000\002\013\005\000\002\060\003" +
-    "\000\002\060\002\000\002\010\005\000\002\004\003\000" +
-    "\002\004\003\000\002\004\003\000\002\004\003\000\002" +
+    "\003\005\000\002\003\002\000\002\004\003\000\002\004" +
+    "\003\000\002\004\003\000\002\004\003\000\002\014\016" +
+    "\000\002\012\005\000\002\012\002\000\002\013\005\000" +
+    "\002\060\003\000\002\060\002\000\002\010\005\000\002" +
     "\011\005\000\002\011\002\000\002\015\007\000\002\016" +
     "\005\000\002\026\003\000\002\026\003\000\002\026\003" +
     "\000\002\020\003\000\002\020\003\000\002\020\003\000" +
@@ -85,18 +85,18 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\037\uffd5\040\uffd5\041\uffd5\042\uffd5\064\uffd5\001\002\000" +
     "\030\006\uffdc\011\uffdc\020\uffdc\033\uffdc\035\uffdc\036\uffdc" +
     "\037\uffdc\040\uffdc\041\uffdc\042\uffdc\064\uffdc\001\002\000" +
-    "\004\002\254\001\002\000\004\020\uffec\001\002\000\030" +
+    "\004\002\254\001\002\000\004\020\ufff3\001\002\000\030" +
     "\006\uffd6\011\uffd6\020\uffd6\033\uffd6\035\uffd6\036\uffd6\037" +
     "\uffd6\040\uffd6\041\uffd6\042\uffd6\064\uffd6\001\002\000\004" +
-    "\020\uffeb\001\002\000\030\006\uffda\011\uffda\020\uffda\033" +
+    "\020\ufff2\001\002\000\030\006\uffda\011\uffda\020\uffda\033" +
     "\uffda\035\uffda\036\uffda\037\uffda\040\uffda\041\uffda\042\uffda" +
     "\064\uffda\001\002\000\004\017\044\001\002\000\004\020" +
-    "\uffe9\001\002\000\030\006\uffd7\011\uffd7\020\uffd7\033\uffd7" +
+    "\ufff0\001\002\000\030\006\uffd7\011\uffd7\020\uffd7\033\uffd7" +
     "\035\uffd7\036\uffd7\037\uffd7\040\uffd7\041\uffd7\042\uffd7\064" +
     "\uffd7\001\002\000\004\005\036\001\002\000\030\006\uffd9" +
     "\011\uffd9\020\uffd9\033\uffd9\035\uffd9\036\uffd9\037\uffd9\040" +
     "\uffd9\041\uffd9\042\uffd9\064\uffd9\001\002\000\004\005\031" +
-    "\001\002\000\004\020\uffea\001\002\000\024\033\027\034" +
+    "\001\002\000\004\020\ufff1\001\002\000\024\033\027\034" +
     "\033\035\012\036\021\037\025\040\007\041\024\042\017" +
     "\064\014\001\002\000\006\006\uffd1\011\uffd1\001\002\000" +
     "\006\006\uffd2\011\uffd2\001\002\000\004\006\035\001\002" +
@@ -111,11 +111,11 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\064\uffb3\001\002\000\032\002\ufff4\021\005\022\006\023" +
     "\010\033\027\035\012\036\021\037\025\040\007\041\024" +
     "\042\017\064\014\001\002\000\004\012\045\001\002\000" +
-    "\066\007\ufff1\012\ufff1\015\ufff1\024\ufff1\025\ufff1\026\ufff1" +
-    "\027\ufff1\030\ufff1\031\ufff1\032\ufff1\033\ufff1\035\ufff1\036" +
-    "\ufff1\037\ufff1\040\ufff1\041\ufff1\042\ufff1\051\ufff1\062\ufff1" +
-    "\063\ufff1\064\ufff1\065\ufff1\072\ufff1\073\ufff1\076\ufff1\077" +
-    "\ufff1\001\002\000\066\007\053\012\101\015\056\024\072" +
+    "\066\007\uffed\012\uffed\015\uffed\024\uffed\025\uffed\026\uffed" +
+    "\027\uffed\030\uffed\031\uffed\032\uffed\033\uffed\035\uffed\036" +
+    "\uffed\037\uffed\040\uffed\041\uffed\042\uffed\051\uffed\062\uffed" +
+    "\063\uffed\064\uffed\065\uffed\072\uffed\073\uffed\076\uffed\077" +
+    "\uffed\001\002\000\066\007\053\012\101\015\056\024\072" +
     "\025\063\026\054\027\105\030\055\031\062\032\051\033" +
     "\027\035\012\036\021\037\025\040\007\041\024\042\017" +
     "\051\057\062\060\063\107\064\113\065\066\072\104\073" +
@@ -302,7 +302,7 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\004\020\ufff6\001\002\000\040\005\132\011\206\020\uffe7" +
     "\044\124\045\136\046\135\047\127\050\140\051\125\052" +
     "\131\053\133\054\141\055\134\057\126\061\137\001\002" +
-    "\000\004\020\uffed\001\002\000\034\007\053\012\101\015" +
+    "\000\004\020\uffe9\001\002\000\034\007\053\012\101\015" +
     "\056\025\063\026\054\027\105\030\055\031\062\032\051" +
     "\051\057\062\060\063\107\064\115\001\002\000\040\005" +
     "\132\011\206\020\uffe7\044\124\045\136\046\135\047\127" +
@@ -337,11 +337,11 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\073\050\074\ufffd\076\111\077\102\001\002\000\004\066" +
     "\230\001\002\000\004\020\uffa3\001\002\000\010\066\uffa2" +
     "\067\uffa2\074\uffa2\001\002\000\004\066\uffa0\001\002\000" +
-    "\066\007\ufff2\012\ufff2\015\ufff2\024\ufff2\025\ufff2\026\ufff2" +
-    "\027\ufff2\030\ufff2\031\ufff2\032\ufff2\033\ufff2\035\ufff2\036" +
-    "\ufff2\037\ufff2\040\ufff2\041\ufff2\042\ufff2\051\ufff2\062\ufff2" +
-    "\063\ufff2\064\ufff2\065\ufff2\072\ufff2\073\ufff2\076\ufff2\077" +
-    "\ufff2\001\002\000\042\010\uffcf\011\uffcf\013\uffcf\014\uffcf" +
+    "\066\007\uffee\012\uffee\015\uffee\024\uffee\025\uffee\026\uffee" +
+    "\027\uffee\030\uffee\031\uffee\032\uffee\033\uffee\035\uffee\036" +
+    "\uffee\037\uffee\040\uffee\041\uffee\042\uffee\051\uffee\062\uffee" +
+    "\063\uffee\064\uffee\065\uffee\072\uffee\073\uffee\076\uffee\077" +
+    "\uffee\001\002\000\042\010\uffcf\011\uffcf\013\uffcf\014\uffcf" +
     "\016\uffcf\020\uffcf\044\uffcf\045\uffcf\047\uffcf\051\uffcf\052" +
     "\uffcf\054\uffcf\055\uffcf\057\uffcf\060\uffcf\061\uffcf\001\002" +
     "\000\052\005\132\010\uffcd\011\uffcd\013\uffcd\014\uffcd\016" +
@@ -366,9 +366,9 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\063\026\054\027\105\030\055\031\062\032\051\051\057" +
     "\062\060\063\107\064\156\065\066\070\ufffd\072\104\073" +
     "\050\076\111\077\102\001\002\000\004\070\252\001\002" +
-    "\000\004\020\uffa5\001\002\000\004\002\001\001\002\000" +
-    "\004\002\000\001\002\000\006\020\uffee\056\202\001\002" +
-    "\000\004\020\ufff0\001\002\000\004\020\uffef\001\002\000" +
+    "\000\004\020\uffa5\001\002\000\004\002\000\001\002\000" +
+    "\004\002\001\001\002\000\006\020\uffea\056\202\001\002" +
+    "\000\004\020\uffec\001\002\000\004\020\uffeb\001\002\000" +
     "\022\033\027\035\012\036\021\037\025\040\007\041\024" +
     "\042\017\064\014\001\002\000\004\020\uffe5\001\002\000" +
     "\004\012\263\001\002\000\024\013\uffaa\033\027\035\012" +
@@ -383,11 +383,11 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\000\004\064\277\001\002\000\004\015\300\001\002\000" +
     "\024\016\uffaa\033\027\035\012\036\021\037\025\040\007" +
     "\041\024\042\017\064\014\001\002\000\004\016\302\001" +
-    "\002\000\004\012\303\001\002\000\066\007\ufff1\012\ufff1" +
-    "\015\ufff1\024\ufff1\025\ufff1\026\ufff1\027\ufff1\030\ufff1\031" +
-    "\ufff1\032\ufff1\033\ufff1\035\ufff1\036\ufff1\037\ufff1\040\ufff1" +
-    "\041\ufff1\042\ufff1\051\ufff1\062\ufff1\063\ufff1\064\ufff1\065" +
-    "\ufff1\072\ufff1\073\ufff1\076\ufff1\077\ufff1\001\002\000\066" +
+    "\002\000\004\012\303\001\002\000\066\007\uffed\012\uffed" +
+    "\015\uffed\024\uffed\025\uffed\026\uffed\027\uffed\030\uffed\031" +
+    "\uffed\032\uffed\033\uffed\035\uffed\036\uffed\037\uffed\040\uffed" +
+    "\041\uffed\042\uffed\051\uffed\062\uffed\063\uffed\064\uffed\065" +
+    "\uffed\072\uffed\073\uffed\076\uffed\077\uffed\001\002\000\066" +
     "\007\053\012\101\015\056\024\072\025\063\026\054\027" +
     "\105\030\055\031\062\032\051\033\027\035\012\036\021" +
     "\037\025\040\007\041\024\042\017\051\057\062\060\063" +
@@ -396,7 +396,7 @@ public class Parser extends java_cup.runtime.lr_parser {
     "\101\013\ufffd\015\056\024\072\025\063\026\054\027\105" +
     "\030\055\031\062\032\051\051\057\062\060\063\107\064" +
     "\156\065\066\072\104\073\050\076\111\077\102\001\002" +
-    "\000\004\013\310\001\002\000\004\020\ufff3\001\002\000" +
+    "\000\004\013\310\001\002\000\004\020\uffef\001\002\000" +
     "\034\002\ufff4\017\ufff4\021\005\022\006\023\010\033\027" +
     "\035\012\036\021\037\025\040\007\041\024\042\017\064" +
     "\014\001\002\000\006\002\ufff5\017\ufff5\001\002" });
@@ -563,7 +563,7 @@ public class Parser extends java_cup.runtime.lr_parser {
   /** Indicates start state. */
   public int start_state() {return 0;}
   /** Indicates start production. */
-  public int start_production() {return 1;}
+  public int start_production() {return 0;}
 
   /** <code>EOF</code> Symbol index. */
   public int EOF_sym() {return 0;}
@@ -614,16 +614,7 @@ class CUP$Parser$actions {
       switch (CUP$Parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // program ::= declarations main declarations 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // $START ::= program EOF 
+          case 0: // $START ::= program EOF 
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-1)).left;
@@ -634,6 +625,15 @@ class CUP$Parser$actions {
             }
           /* ACCEPT */
           CUP$Parser$parser.done_parsing();
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 1: // program ::= declarations main declarations 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
@@ -745,7 +745,43 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents RPAREN LBRACE variable_declarations statement SEMICOLON statements RBRACE 
+          case 14: // declaration ::= function_declaration 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 15: // declaration ::= variable_declaration 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 16: // declaration ::= alias_declaration 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // declaration ::= type_declaration 
+            {
+              Object RESULT =null;
+
+              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
+            }
+          return CUP$Parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 18: // function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents RPAREN LBRACE variable_declarations statement SEMICOLON statements RBRACE 
             {
               Object RESULT =null;
 
@@ -754,7 +790,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // variable_declarations ::= variable_declarations variable_declaration SEMICOLON 
+          case 19: // variable_declarations ::= variable_declarations variable_declaration SEMICOLON 
             {
               Object RESULT =null;
 
@@ -763,7 +799,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // variable_declarations ::= 
+          case 20: // variable_declarations ::= 
             {
               Object RESULT =null;
 
@@ -772,7 +808,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // variable_declaration ::= type IDENTIFIER initialised 
+          case 21: // variable_declaration ::= type IDENTIFIER initialised 
             {
               Object RESULT =null;
 
@@ -781,7 +817,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // initialised ::= assignment 
+          case 22: // initialised ::= assignment 
             {
               Object RESULT =null;
 
@@ -790,7 +826,7 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // initialised ::= 
+          case 23: // initialised ::= 
             {
               Object RESULT =null;
 
@@ -799,47 +835,11 @@ class CUP$Parser$actions {
           return CUP$Parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // assignment ::= ASSIGNMENT expression multiple_assignments 
+          case 24: // assignment ::= ASSIGNMENT expression multiple_assignments 
             {
               Object RESULT =null;
 
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("assignment",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.elementAt(CUP$Parser$top-2)), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // declaration ::= function_declaration 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // declaration ::= variable_declaration 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // declaration ::= alias_declaration 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
-            }
-          return CUP$Parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // declaration ::= type_declaration 
-            {
-              Object RESULT =null;
-
-              CUP$Parser$result = parser.getSymbolFactory().newSymbol("declaration",2, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
           return CUP$Parser$result;
 
