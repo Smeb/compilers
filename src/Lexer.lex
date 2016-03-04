@@ -22,23 +22,29 @@ import java_cup.runtime.*;
   }
 %}
 
-  Whitespace = \r|\n|\r\n|" "|"\t"
-  Bool = [T|F]
-  Letter = [a-zA-Z]
-  Digit = [0-9]
-  Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
-  AcceptedChar = ({Letter}|"_"|{Digit})
-  Identifier = {Letter}{AcceptedChar}*
+CommentChar = [^\r\n]
+EOL = \n|\n|\r\n
+Whitespace = \r|\n|\r\n|" "|"\t"
+Bool = [T|F]
+Letter = [a-zA-Z]
+Digit = [0-9]
+Punctuation = [\!#$%&\(\)\*+,-\.V:;<=>\?@\[\\\]\^_`\{\|\}\~\"\']
+AcceptedChar = ({Letter}|"_"|{Digit})
+Identifier = {Letter}{AcceptedChar}*
 Integer = (0|[1-9]{Digit}*)
-  Rational = ({Integer}_)?{Integer}"/"{Integer}
-  Float = {Integer}\.{Digit}+
-  Char = \'({Letter}|{Digit}|{Punctuation})\'
-  StringCharacter = [^\r\n\"\\]
+Rational = ({Integer}_)?{Integer}"/"{Integer}
+Float = {Integer}\.{Digit}+
+Char = \'({Letter}|{Digit}|{Punctuation})\'
+StringCharacter = [^\r\n\"\\]
+LineComment = "#"{CommentChar}*{EOL}?
+MultiComment = "/#"[^#]~"#/" | "/#" "#" + "/"
 %state STRING
 %%
-  <YYINITIAL> {
+<YYINITIAL> {
     /* iterator keywords in the language */
     {Whitespace}  { /* do nothing */               }
+    {LineComment}  { /* do nothing */               }
+    {MultiComment}  { /* do nothing */               }
     {Bool}        { return symbol(sym.BOOL);       }
     {Char}        {
                     return symbol(
@@ -129,4 +135,10 @@ Integer = (0|[1-9]{Digit}*)
   "\\\""  { string.append( '\"' ); }
   "\\'"   { string.append( '\'' ); }
   "\\\\"  { string.append( '\\' ); }
+}
+
+[^] {
+System.out.println("file:" + (yyline + 1) +
+    ":" + yycolumn + ": Error: invalid input '" + yytext() + "'");
+    return symbol(sym.BADCHAR);
 }

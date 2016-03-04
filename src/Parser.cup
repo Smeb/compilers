@@ -40,12 +40,11 @@ terminal BADCHAR;
   nonterminal program;
   /* declarations */
   nonterminal declarations, declaration, main, statements, statement,
-  assignment, multiple_assignments,
-  variable_declarations;
+  multiple_assignments;
   nonterminal variable_declaration, function_declaration,
   type_declaration, alias_declaration;
   /* low level constructs */
-  nonterminal collection, item, type, type_with_top, dict_t, sequence_t,
+  nonterminal collection, item, type, type_with_top_id, dict_t, sequence_t,
   ftype;
   nonterminal expression, evaluable, function_call;
   /* list nonterminals */
@@ -55,36 +54,39 @@ terminal BADCHAR;
   /* conditional flow nonterminals */
   nonterminal while, for;
   /* io_ops */
-  nonterminal io_op, named_ent, dot_access, collection_access,
+  nonterminal io_op, dot_access,
   return, if, elif, else, settable, index_access,
   slice;
 
-  //working set
-  nonterminal initialised;
-
-precedence left PLUS, MINUS, OR, APPEND, COMMA, MULT, DIV, AND;
+// we probably can do this to resolve variable declaration issues
+// precedence IDENTIFIER;
+precedence left PLUS, MINUS, OR, APPEND, COMMA;
+precedence left MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
 precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 
 start with program;
 
 program ::= declarations main declarations;
-main ::= MAIN LBRACE variable_declarations statement SEMICOLON statements RBRACE SEMICOLON;
+// potentiall add variable declarations to start only
+main ::= MAIN LBRACE statement statements RBRACE SEMICOLON;
 
-statements ::= statements statement SEMICOLON
+statements ::= statements statement
             |
             ;
 
-statement ::= io_op
+// possible two ways to reach identifier
+statement ::= io_op SEMICOLON
+            | return SEMICOLON
+            | expression SEMICOLON
+            | settable ASSIGNMENT multiple_assignments SEMICOLON
+            | variable_declaration SEMICOLON
             | if
             | while
             | for
-            | return
-            | expression
-            | settable assignment
             ;
 
-declarations ::= declarations declaration SEMICOLON
+declarations ::= declaration SEMICOLON declarations
               |
               ;
 
@@ -95,26 +97,21 @@ declaration ::= function_declaration
               ;
 
 function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
-RPAREN LBRACE variable_declarations statement SEMICOLON statements RBRACE;
+                      RPAREN LBRACE statement statements RBRACE;
 
-variable_declarations ::= variable_declarations variable_declaration SEMICOLON
-                      |
+variable_declaration ::= type IDENTIFIER ASSIGNMENT multiple_assignments
+                      | IDENTIFIER IDENTIFIER ASSIGNMENT multiple_assignments
+                      | type IDENTIFIER
+                      | IDENTIFIER IDENTIFIER
                       ;
 
-variable_declaration ::=  type IDENTIFIER initialised;
-initialised::= assignment
-            |
-            ;
-
-assignment ::= ASSIGNMENT expression multiple_assignments;
-
 multiple_assignments ::= multiple_assignments COMMA expression
-                      |
+                      | expression
                       ;
 
 
 type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
-alias_declaration ::= ALIAS type type;
+alias_declaration ::= ALIAS type IDENTIFIER;
 
 // expression can resolve to IDENTIFIER through
 // settable -> index_access -> IDENTIFIER
@@ -167,14 +164,16 @@ evaluable ::= NOT expression
             | expression APPEND expression
             ;
 
-type ::= IDENTIFIER | BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
-ftype ::= VOID | type;
-type_with_top ::= TOP_T | type;
+type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
+ftype ::= IDENTIFIER | VOID | type;
+type_with_top_id ::= TOP_T | type | IDENTIFIER;
 
 function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;
 
 
-sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
+sequence_t ::= SEQ_T LANGLE type_with_top_id RANGLE
+            | SEQ_T LANGLE IDENTIFIER RANGLE;
+
 sequence_start ::= LBRACKET sequence_contents RBRACKET;
 sequence_contents ::= sequence_body
                 |
@@ -184,7 +183,9 @@ sequence_body ::= expression
                 | sequence_body COMMA expression
                 ;
 
-dict_t ::= DICT_T LANGLE type_with_top COMMA type_with_top RANGLE;
+dict_t ::= DICT_T LANGLE type_with_top_id COMMA type_with_top_id RANGLE
+         ;
+
 dict_start ::= LBRACE dict_contents RBRACE;
 dict_contents ::= dict_body
               |
@@ -194,6 +195,7 @@ dict_contents ::= dict_body
 dict_body ::= dict_value
           | dict_body COMMA dict_value
           ;
+
 dict_value ::= expression COLON expression;
 
 type_id_contents ::= type_id_body
@@ -204,7 +206,9 @@ type_id_body ::= type_id_body COMMA type_id
               | type_id
               ;
 
-type_id ::= type IDENTIFIER;
+type_id ::= type IDENTIFIER
+          | IDENTIFIER IDENTIFIER
+          ;
 
 while ::= WHILE LPAREN expression RPAREN DO statements OD;
 for ::= FORALL LPAREN IDENTIFIER IN collection RPAREN DO
@@ -223,6 +227,6 @@ return ::= RETURN expression
         | RETURN
         ;
 
-io_op ::= PRINT
-      | READ named_ent
+io_op ::= PRINT expression
+      | READ settable
       ;
