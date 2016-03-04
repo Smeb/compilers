@@ -52,7 +52,7 @@ terminal BADCHAR;
   nonterminal expression, evaluable, function_call;
   /* list nonterminals */
   nonterminal sequence_start, sequence_contents, sequence_body,
-  dict_start, dict_contents, dict_body, dict_value,
+  dict_start, dict_contents, dict_body, 
   type_id_contents, type_id_body, type_id;
   /* conditional flow nonterminals */
   nonterminal while, for;
@@ -61,8 +61,9 @@ terminal BADCHAR;
   return, if, elif, else, settable, index_access,
   slice;
 
+nonterminal body, variable_declarations;
+
 // we probably can do this to resolve variable declaration issues
-precedence left IDENTIFIER;
 precedence left PLUS, MINUS, OR, APPEND, COMMA;
 precedence left MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
@@ -71,20 +72,16 @@ precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 start with program;
 
 program ::= declarations main declarations;
-main ::= MAIN LBRACE statement statements RBRACE SEMICOLON;
+main ::= MAIN LBRACE body RBRACE SEMICOLON;
 
 statements ::= statements statement
             |
             ;
 
-// possible two ways to reach identifier
 statement ::= io_op SEMICOLON
             | return SEMICOLON
             | expression SEMICOLON
             | settable ASSIGNMENT multiple_assignments SEMICOLON
-            | variable_declaration SEMICOLON
-            | alias_declaration SEMICOLON
-            | type_declaration SEMICOLON
             | if
             | while
             | for
@@ -94,6 +91,12 @@ declarations ::= declaration SEMICOLON declarations
               |
               ;
 
+body ::= variable_declarations
+      |  statement statements
+      ;
+
+variable_declarations ::=  variable_declaration SEMICOLON body;
+
 declaration ::= function_declaration
               | variable_declaration
               | alias_declaration
@@ -101,12 +104,10 @@ declaration ::= function_declaration
               ;
 
 function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
-                      RPAREN LBRACE statement statements RBRACE;
+                      RPAREN LBRACE body RBRACE;
 
-variable_declaration ::= type IDENTIFIER ASSIGNMENT multiple_assignments
-                      | IDENTIFIER IDENTIFIER ASSIGNMENT multiple_assignments
-                      | type IDENTIFIER
-                      | IDENTIFIER IDENTIFIER
+variable_declaration ::= type_with_top_id IDENTIFIER ASSIGNMENT multiple_assignments
+                      | type_with_top_id IDENTIFIER
                       ;
 
 multiple_assignments ::= multiple_assignments COMMA expression
@@ -120,9 +121,7 @@ alias_declaration ::= ALIAS type IDENTIFIER;
 // expression can resolve to IDENTIFIER through
 // settable -> index_access -> IDENTIFIER
 
-expression ::= item
-            | collection
-            | evaluable
+expression ::= evaluable
             | slice
             | settable
             ;
@@ -166,6 +165,8 @@ evaluable ::= NOT expression
             | expression PLUS expression
             | expression POW expression
             | expression APPEND expression
+            | item
+            | collection
             ;
 
 type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
@@ -196,11 +197,9 @@ dict_contents ::= dict_body
               ;
 
 
-dict_body ::= dict_value
-          | dict_body COMMA dict_value
+dict_body ::= expression COLON expression
+          | dict_body COMMA expression COLON expression
           ;
-
-dict_value ::= expression COLON expression;
 
 type_id_contents ::= type_id_body
                   |

@@ -2,15 +2,23 @@ We do not allow aliases, function definitions, or type definitions
 inside functions. This is because functions are defined as allowing
 variable declarations and statements only.
 
-We do  allow functions with empty bodies. Main cannot be empty since a
-provided test gives an empty main as a fail.
+We do not allow function bodies with no statements, since there is a provided test
+where an empty main is supposed to fail. Though the specification does
+not cover this in detail, we decided that a function should at least
+require a statement, since just defining a variable would be redundant
+in most cases we could think of.
 
-The specification appears to not allow variables, tdefs, or aliases in
-function bodies. However, the provided tests seem to allow this functionality.
-The implementation here follows the test cases - this is because we're
-being assessed automatically.
+We thought it wasn't clear where we should report the error if main is missing -
+we chose to allow the CUP default of 0, -1, in keeping with the normal return of
+many implementations of 'find' functions, which return -1; this also
+makes the error message more readable, since a positive number indicates
+an invalid / out-of-sequence token, while a -1 signifies an expected
+construction which is totally missing.
 
-Wasn't clear where to report the error if main is missing - we chose to
-allow the CUP default of 0, -1, in keeping with the normal return of
-many implementations of 'find' functions, and since it is less
-ambiguous;
+Having spoken to TAs we were aware that the reference compiler does not
+compile certain phrases such as "string"[3]. However we have implemented
+this functionality, since it's in the specification (string is syntactic
+sugar for sequence). Since string is syntactic sugar for sequence we
+allow accesses such as "string".name (since a list could have structures
+with fields), even though this would be invalid. Treating string
+differently would be type resolution at parse time.
