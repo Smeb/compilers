@@ -28,7 +28,7 @@ terminal BADCHAR;
   COLON, LPAREN, RPAREN, MAIN, SEMICOLON, FDEF, TDEF, ALIAS, RETURN;
   /* items */
   terminal BOOL, CHAR, FLOAT, INTEGER, RATIONAL;
-  /* collections */
+  /* collection terminals */
   terminal STRING_LITERAL;
   /* language types */
   terminal SEQ_T, TOP_T, BOOLEAN_T, CHAR_T, DICT_T, FLOAT_T, INT_T,
@@ -48,11 +48,11 @@ terminal BADCHAR;
   type_declaration, alias_declaration;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top_id, dict_t, sequence_t,
-  ftype;
+  ftype, type_with_id;
   nonterminal expression, evaluable, function_call;
   /* list nonterminals */
   nonterminal sequence_start, sequence_contents, sequence_body,
-  dict_start, dict_contents, dict_body, 
+  dict_start, dict_contents, dict_body,
   type_id_contents, type_id_body, type_id;
   /* conditional flow nonterminals */
   nonterminal while, for;
@@ -63,7 +63,6 @@ terminal BADCHAR;
 
 nonterminal body, variable_declarations;
 
-// we probably can do this to resolve variable declaration issues
 precedence left PLUS, MINUS, OR, APPEND, COMMA;
 precedence left MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
@@ -106,14 +105,13 @@ declaration ::= function_declaration
 function_declaration ::= FDEF ftype IDENTIFIER LPAREN type_id_contents
                       RPAREN LBRACE body RBRACE;
 
-variable_declaration ::= type_with_top_id IDENTIFIER ASSIGNMENT multiple_assignments
-                      | type_with_top_id IDENTIFIER
+variable_declaration ::= type_with_id IDENTIFIER ASSIGNMENT multiple_assignments
+                      | type_with_id IDENTIFIER
                       ;
 
 multiple_assignments ::= multiple_assignments COMMA expression
                       | expression
                       ;
-
 
 type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
 alias_declaration ::= ALIAS type IDENTIFIER;
@@ -124,6 +122,7 @@ alias_declaration ::= ALIAS type IDENTIFIER;
 expression ::= evaluable
             | slice
             | settable
+            | collection
             ;
 
 slice ::= LBRACKET expression COLON expression RBRACKET
@@ -133,8 +132,7 @@ slice ::= LBRACKET expression COLON expression RBRACKET
         ;
 
 settable ::= IDENTIFIER access
-        | collection access_main
-        | function_call access_main
+        | collection index_access access_main
         ;
 
 access ::= access_main
@@ -160,7 +158,7 @@ evaluable ::= NOT expression
             | LEN LPAREN expression RPAREN
             | MINUS expression
             | LPAREN expression RPAREN
-            | function_call
+            | function_call access
             | expression AND expression
             | expression DIV expression
             | expression EQ expression
@@ -175,11 +173,12 @@ evaluable ::= NOT expression
             | expression POW expression
             | expression APPEND expression
             | item
-            | collection
             ;
 
 type ::= BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
 ftype ::= IDENTIFIER | VOID | type;
+
+type_with_id ::= type | IDENTIFIER;
 type_with_top_id ::= TOP_T | type | IDENTIFIER;
 
 function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;

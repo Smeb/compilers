@@ -1,6 +1,12 @@
 We do not allow aliases, function definitions, or type definitions
 inside functions. This is because functions are defined as allowing
-variable declarations and statements only.
+variable declarations and statements only in the specification, and since the specification quantifies that there could be zero or more
+variable declarations, but does not do this for statements.
+
+As in the specification we strictly only allow variable declarations
+when they are before all statements in the body of the function / main.
+There was a provided test which did not stick to this rule but we
+decided to keep to the specification.
 
 We do not allow function bodies with no statements, since there is a provided test
 where an empty main is supposed to fail. Though the specification does
@@ -15,10 +21,17 @@ makes the error message more readable, since a positive number indicates
 an invalid / out-of-sequence token, while a -1 signifies an expected
 construction which is totally missing.
 
-Having spoken to TAs we were aware that the reference compiler does not
-compile certain phrases such as "string"[3]. However we have implemented
-this functionality, since it's in the specification (string is syntactic
-sugar for sequence). Since string is syntactic sugar for sequence we
-allow accesses such as "string".name (since a list could have structures
-with fields), even though this would be invalid. Treating string
-differently would be type resolution at parse time.
+Since we allow field access to elements from lists such as
+my_list[0].field, we also allow the same access to string literals as
+strings are syntactic sugar for lists, and should be treated with the
+same functionality therefore "string"[0].field is valid for the parser,
+and would be caught by later checks.
+
+In terms of the left side of assignments, we allow identifiers, and
+accesses from lists and dictionaries - notably we don't allow setting return values of
+functions, since memory addressing was not covered in the specification.
+We do allow function calls on the right side of assignments or on their
+own (as expressions), and we allow indexing and field access of function
+calls, since functions could reasonably return a structure or list.
+Therefore a statement such as foo = bar()[3].field; is fine, while 
+bar() = foo; is not

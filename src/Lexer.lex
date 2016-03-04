@@ -6,7 +6,6 @@ import java_cup.runtime.*;
 %cup
 %line
 %column
-%debug
 
 %{
   private boolean debug_mode;
@@ -139,7 +138,7 @@ MultiComment = "/#"[^#]~"#/" | "/#" "#" + "/"
 }
 
 [^] {
-System.out.println("file:" + (yyline + 1) +
-    ":" + yycolumn + ": Error: invalid input '" + yytext() + "'");
-    return symbol(sym.BADCHAR);
+  System.out.println("file:" + (yyline+1) +
+    ":" + yycolumn + ": Error: Invalid input '" + yytext()+"'");
+  return symbol(sym.BADCHAR);
 }
