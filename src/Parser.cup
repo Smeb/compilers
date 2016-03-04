@@ -57,9 +57,9 @@ terminal BADCHAR;
   /* conditional flow nonterminals */
   nonterminal while, for;
   /* io_ops */
-  nonterminal io_op, dot_access,
+  nonterminal io_op, dot_access, access, access_main,
   return, if, elif, else, settable, index_access,
-  slice;
+  slice, sliceable;
 
 nonterminal body, variable_declarations;
 
@@ -126,19 +126,28 @@ expression ::= evaluable
             | settable
             ;
 
-slice ::= index_access LBRACKET expression COLON expression RBRACKET
-        | index_access LBRACKET COLON expression RBRACKET
-        | index_access LBRACKET expression COLON RBRACKET
-        | index_access LBRACKET COLON RBRACKET
+slice ::= LBRACKET expression COLON expression RBRACKET
+        | LBRACKET COLON expression RBRACKET
+        | LBRACKET expression COLON RBRACKET
+        | LBRACKET COLON RBRACKET
         ;
 
-settable ::= dot_access
-        | index_access
+settable ::= IDENTIFIER access
+        | collection access_main
+        | function_call access_main
         ;
 
-dot_access ::= expression DOT IDENTIFIER;
-index_access ::= index_access LBRACKET expression RBRACKET
-              | IDENTIFIER
+access ::= access_main
+        |
+        ;
+
+access_main ::= dot_access access
+              | index_access access
+              | slice access
+              ;
+
+dot_access ::= DOT IDENTIFIER;
+index_access ::= LBRACKET expression RBRACKET
               ;
 
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
