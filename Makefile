@@ -12,3 +12,13 @@ bin/$(LANG).class: src/Lexer.lex src/Parser.cup src/$(LANG).java
 
 clean:
 	rm -rf src/Lexer.java src/Lexer.java~ src/sym.java src/Parser.java bin/*.class
+
+TESTCASES := $(shell find 'tests/' -name '*.s')
+
+TESTS = $(TESTCASES)
+.PHONY: test $(TESTCASES) 
+test: $(TESTCASES)
+	echo done
+$(TESTS):	
+	echo $@ >> result.csv
+	./runTests.sh $(VERCUP) $(LANG) $@

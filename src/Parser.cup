@@ -2,20 +2,23 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 
 parser code {:
-
   public Boolean syntaxErrors = false;
 
-  public void syntax_error(Symbol current_token){
-  report_error("Syntax error at line " + (current_token.left+1) +
-  ", column " + current_token.right + "\n", null);
-  }
-  private Lexer lexer;
-
-  public Parser(Lexer lex) {
-    super(lex);
-    lexer = lex;
+  public void syntax_error(Symbol current_token) {
+    report_error("Syntax error at line " + (current_token.left+1) + ", column "
+        + current_token.right + "\n", null
+    );
+    syntaxErrors = true;
   }
 
+  public void unrecovered_syntax_error(Symbol current_token) {
+    if(!syntaxErrors) {
+      report_error("Syntax error at line " + (current_token.left+1) + ", column "
+          + current_token.right, null
+      );
+      syntaxErrors = true;
+    }
+  }
 :}
 
 terminal BADCHAR;
@@ -59,7 +62,7 @@ terminal BADCHAR;
   slice;
 
 // we probably can do this to resolve variable declaration issues
-// precedence IDENTIFIER;
+precedence left IDENTIFIER;
 precedence left PLUS, MINUS, OR, APPEND, COMMA;
 precedence left MULT, DIV, AND;
 precedence right POW, IN, ASSIGNMENT;
@@ -68,7 +71,6 @@ precedence nonassoc NOT, LANGLE, LTEQ, RANGLE, EQ, NEQ;
 start with program;
 
 program ::= declarations main declarations;
-// potentiall add variable declarations to start only
 main ::= MAIN LBRACE statement statements RBRACE SEMICOLON;
 
 statements ::= statements statement
@@ -81,6 +83,8 @@ statement ::= io_op SEMICOLON
             | expression SEMICOLON
             | settable ASSIGNMENT multiple_assignments SEMICOLON
             | variable_declaration SEMICOLON
+            | alias_declaration SEMICOLON
+            | type_declaration SEMICOLON
             | if
             | while
             | for

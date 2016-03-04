@@ -1,6 +1,16 @@
-1. possible_collections is defined as:
---------------------------------------
-a collection
-a named_ent (can be an identifier, a dot_access or a collection_access)
-a function_call (the function could return a collection)
+We do not allow aliases, function definitions, or type definitions
+inside functions. This is because functions are defined as allowing
+variable declarations and statements only.
 
+We do  allow functions with empty bodies. Main cannot be empty since a
+provided test gives an empty main as a fail.
+
+The specification appears to not allow variables, tdefs, or aliases in
+function bodies. However, the provided tests seem to allow this functionality.
+The implementation here follows the test cases - this is because we're
+being assessed automatically.
+
+Wasn't clear where to report the error if main is missing - we chose to
+allow the CUP default of 0, -1, in keeping with the normal return of
+many implementations of 'find' functions, and since it is less
+ambiguous;

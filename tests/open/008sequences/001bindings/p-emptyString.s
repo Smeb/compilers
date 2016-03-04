@@ -1,3 +1,0 @@
-main {
-    seq<char> s = "";
-};
