@@ -2,4 +2,5 @@ person bla = "Shin", "Yoo", 30;
 
 main {
     person d = "Shin", "Yoo", 30;
+    d = 3;
 };
