@@ -47,7 +47,7 @@ terminal BADCHAR;
   /* low level constructs */
   nonterminal collection, item, type, type_with_top, dict_t, sequence_t,
   ftype;
-  nonterminal expression, l_r_op, evaluable, function_call;
+  nonterminal expression, evaluable, function_call;
   /* list nonterminals */
   nonterminal sequence_start, sequence_contents, sequence_body,
   dict_start, dict_contents, dict_body, dict_value,
@@ -56,7 +56,8 @@ terminal BADCHAR;
   nonterminal while, for;
   /* io_ops */
   nonterminal io_op, named_ent, dot_access, collection_access,
-  possible_collections, return, if, elif, else, access, index_access;
+  return, if, elif, else, settable, index_access,
+  slice;
 
   //working set
   nonterminal initialised;
@@ -80,6 +81,7 @@ statement ::= io_op
             | for
             | return
             | expression
+            | settable assignment
             ;
 
 declarations ::= declarations declaration SEMICOLON
@@ -106,7 +108,7 @@ initialised::= assignment
 
 assignment ::= ASSIGNMENT expression multiple_assignments;
 
-multiple_assignments ::= COMMA expression multiple_assignments
+multiple_assignments ::= multiple_assignments COMMA expression
                       |
                       ;
 
@@ -115,15 +117,22 @@ type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
 alias_declaration ::= ALIAS type type;
 
 // expression can resolve to IDENTIFIER through
-// access -> index_access -> IDENTIFIER
+// settable -> index_access -> IDENTIFIER
 
 expression ::= item
             | collection
             | evaluable
-            | access
+            | slice
+            | settable
             ;
 
-access ::= dot_access
+slice ::= index_access LBRACKET expression COLON expression RBRACKET
+        | index_access LBRACKET COLON expression RBRACKET
+        | index_access LBRACKET expression COLON RBRACKET
+        | index_access LBRACKET COLON RBRACKET
+        ;
+
+settable ::= dot_access
         | index_access
         ;
 
@@ -198,7 +207,9 @@ type_id_body ::= type_id_body COMMA type_id
 type_id ::= type IDENTIFIER;
 
 while ::= WHILE LPAREN expression RPAREN DO statements OD;
-for ::= FORALL LPAREN IDENTIFIER IN possible_collections RPAREN DO
+for ::= FORALL LPAREN IDENTIFIER IN collection RPAREN DO
+statements OD
+| FORALL LPAREN IDENTIFIER IN IDENTIFIER RPAREN DO
 statements OD;
 if::= IF LPAREN expression RPAREN THEN statements elif else FI;
 elif ::= elif ELIF statements

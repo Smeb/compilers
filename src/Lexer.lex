@@ -6,7 +6,6 @@ import java_cup.runtime.*;
 %cup
 %line
 %column
-%debug
 
 %{
   private boolean debug_mode;

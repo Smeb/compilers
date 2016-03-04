@@ -1,11 +1,6 @@
-fdef void myFunction(bool truth, int false){
-  truth = false;
+fdef void myf(){
+dante=3;
 };
-
-tdef myType {string name, string surname, int age};
 main {
-forall (values in value_list) DO
-  values = 3;
-  OD
-bool name = value;
+dante=3;
 };
