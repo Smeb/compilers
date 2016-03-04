@@ -115,17 +115,16 @@ multiple_assignments ::= COMMA expression multiple_assignments
 type_declaration ::= TDEF IDENTIFIER LBRACE type_id_contents RBRACE;
 alias_declaration ::= ALIAS type type;
 
-
-// need to factor in identifier to expression
 expression ::= item
             | collection
             | evaluable
+            | IDENTIFIER
             ;
-
 item ::= CHAR | FLOAT | INTEGER | RATIONAL | BOOL;
-type ::= IDENTIFIER | BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
-ftype ::= VOID | type;
-type_with_top ::= TOP_T | type;
+collection ::= STRING_LITERAL
+            | dict_start
+            | sequence_start
+            ;
 evaluable ::= expression l_r_op expression
             | NOT expression
             | LEN LPAREN expression RPAREN
@@ -133,15 +132,30 @@ evaluable ::= expression l_r_op expression
             | LPAREN expression RPAREN
             | function_call
             ;
+
+            /*
+named_ent ::= IDENTIFIER
+          | dot_access
+          | collection_access
+          | function_call
+          ;
+
+collection_access ::= possible_collections LBRACKET expression RBRACKET;
+possible_collections ::= named_ent
+                     | collection
+                     | function_call
+                     ;
+                     */
+dot_access ::= named_ent DOT IDENTIFIER;
+
+type ::= IDENTIFIER | BOOLEAN_T | CHAR_T | dict_t | FLOAT_T | INT_T | RATIONAL_T | sequence_t;
+ftype ::= VOID | type;
+type_with_top ::= TOP_T | type;
 l_r_op ::= AND | DIV | EQ | IN | LANGLE | LTEQ | MINUS | MULT | NEQ | OR
 | PLUS | POW | APPEND;
 
 function_call ::= IDENTIFIER LPAREN sequence_contents RPAREN;
 
-collection ::= STRING_LITERAL
-            | dict_start
-            | sequence_start
-            ;
 
 sequence_t ::= SEQ_T LANGLE type_with_top RANGLE;
 sequence_start ::= LBRACKET sequence_contents RBRACKET;
@@ -159,7 +173,6 @@ dict_contents ::= dict_body
               |
               ;
 
-dot_access ::= expression DOT IDENTIFIER;
 
 dict_body ::= dict_value
           | dict_body COMMA dict_value
@@ -193,17 +206,8 @@ else ::= ELSE statements
 
 // We can have identifier, accessed element, or indexed element as io
 // value
-named_ent ::= IDENTIFIER
-          | dot_access
-          | collection_access
-          ;
 
-possible_collections ::= named_ent
-                     | collection
-                     | function_call
-                     ;
 
-collection_access ::= possible_collections LBRACKET expression RBRACKET;
 
 return ::= RETURN expression
         | RETURN
